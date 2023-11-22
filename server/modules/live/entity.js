@@ -2134,14 +2134,13 @@ class Entity extends EventEmitter {
                 let position = {
                     x: this.x,
                     y: this.y,
-                    facing: this.facing,
                 };
                 let o = new Entity(position);
                 o.define(this.nextForm); // EntityÇNEXT_FORMÇ…ê›íËÇ≥ÇÍÇΩêÌé‘Ç…Ç∑ÇÈ
                 o.team = this.team;
                 o.master = this.master;
                 o.skill = this.skill;
-                //o.facing = this.facing;
+                o.facing = this.facing;
                 o.SIZE = this.size;
             }
             // Kill it

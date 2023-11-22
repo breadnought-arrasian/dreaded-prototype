@@ -580,13 +580,16 @@ exports.eliteGunner = {
         {
             POSITION: [4, 16, 1.5, 14, 0, 180, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.trap, g.hexatrap]),
+                SHOOT_SETTINGS: combineStats([g.trap, g.block, g.small]),
                 TYPE: [
-                    "pillbox",
+                    "unsetPillbox",
                     {
                         INDEPENDENT: true,
                     },
                 ],
+                MAX_CHILDREN: 6,
+                SYNCS_SKILLS: true,
+                DESTROY_OLDEST_CHILD: true,
             },
         },
         {
@@ -764,7 +767,7 @@ exports.eliteSpawner_sentryG = {
     TURRETS: [
         {
             POSITION: [12, 0, 0, 180, 360, 1],
-            TYPE: ["heavy3gun", { HAS_NO_RECOIL: true }]
+            TYPE: ["heavy3gun", { HAS_NO_RECOIL: true, INDEPENDENT: true }]
         }
     ]
 };
@@ -2604,13 +2607,13 @@ exports.rogueArmada = (() => {
             });
         }
         GUNS.push({
-            POSITION: [ 9, 6  ,  1  , 4,  0, (i + 0.5) * (360 / SHAPE), 0 ],
+            POSITION: [ 9, 6, 1, 4, 0, (i + 0.5) * (360 / SHAPE), 0 ],
             PROPERTIES: {
                 SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.fake]),
                 TYPE: "casing"
             }
         }, {
-            POSITION: [ 8, 6  , -1.1, 4,  0, (i + 0.5) * (360 / SHAPE), 0 ]
+            POSITION: [ 8, 6, -1.3, 4, 0, (i + 0.5) * (360 / SHAPE), 0 ]
         });
     }
     for (let i = 0; i < SHAPE; i++) {
@@ -2785,46 +2788,6 @@ exports.eternal = {
 };
 
 // Terrestrials
-exports.protoHive = {
-    PARENT: ["bullet"],
-    LABEL: "Proto-Hive",
-    BODY: {
-        RANGE: 90,
-        FOV: 0.5,
-    },
-    FACING_TYPE: "turnWithSpeed",
-    INDEPENDENT: true,
-    CONTROLLERS: ["alwaysFire", "nearestDifferentMaster", "targetSelf"],
-    AI: {
-        NO_LEAD: true,
-    },
-    GUNS: [
-        {
-            POSITION: [7, 9.5, 0.6, 7, 0, 0, 0],
-            PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees]),
-                TYPE: ["bee", { INDEPENDENT: true }],
-                STAT_CALCULATOR: gunCalcNames.swarm,
-            },
-        },
-        {
-            POSITION: [7, 9.5, 0.6, 7, 0, 120, 0.2],
-            PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees]),
-                TYPE: ["bee", { INDEPENDENT: true }],
-                STAT_CALCULATOR: gunCalcNames.swarm,
-            },
-        },
-        {
-            POSITION: [7, 9.5, 0.6, 7, 0, -120, 0.4],
-            PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees]),
-                TYPE: ["bee", { INDEPENDENT: true }],
-                STAT_CALCULATOR: gunCalcNames.swarm,
-            },
-        },
-    ],
-};
 exports.protoSwarmerTurret = {
     PARENT: ["genericTank"],
     LABEL: "Swarmer",
@@ -2847,7 +2810,7 @@ exports.protoSwarmerTurret = {
             },
         },
         {
-            POSITION: [11, 12, 1, 5, 0, 0, 0],
+            POSITION: [10, 13, 1, 5, 0, 0, 0],
         },
     ],
 };
@@ -3302,14 +3265,14 @@ exports.swarmerTurret = {
     COLOR: 16,
     GUNS: [
         {
-            POSITION: [14, 14, -1.2, 5, 0, 0, 0],
+            POSITION: [14, 13, -1.2, 5, 0, 0, 0],
             PROPERTIES: {
                 SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.hive, { health: 1.5, damage: 1.5, pen: 2, speed: 2, maxSpeed: 0.5, range: 2 }]),
                 TYPE: "hive",
             },
         },
         {
-            POSITION: [15, 12, 1, 5, 0, 0, 0],
+            POSITION: [14, 12, 1, 5, 0, 0, 0],
         },
     ],
 };
@@ -7111,6 +7074,1194 @@ exports.srk2.UPGRADES_TIER_0 = ["srk3"];
 exports.srk3.UPGRADES_TIER_0 = ["srk4"];
 exports.srk4.UPGRADES_TIER_0 = ["srk5"];
 
+//Raptured Star-X (RPS-X)
+exports.rps1_droneGun = {
+    PARENT: ["genericTank"],
+    LABEL: "",
+    BODY: {
+        FOV: 30,
+    },
+    COLOR: 16,
+    MAX_CHILDREN: 6,
+    CONTROLLERS: ["nearestDifferentMaster"],
+    AI: {
+        NO_LEAD: true,
+        SKYNET: true,
+        FULL_VIEW: true,
+    },
+    MIRROR_MASTER_ANGLE: true,
+    INDEPENDENT: true,
+    GUNS: [
+        {
+            POSITION: [10, 20, 1.3, 8, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.morespeed, { shsize: 0.75 }]),
+                TYPE: ["drone", { HITS_OWN_TYPE: "push", BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+            },
+        },
+    ],
+};
+exports.rps1 = {
+    PARENT: ["miniboss"],
+    LABEL: "RPS-1",
+    COLOR: 5,
+    SHAPE: 3,
+    SIZE: 16,
+    VALUE: 100000,
+    BODY: {
+        FOV: 1.3,
+        SPEED: base.SPEED * 0.3,
+        HEALTH: base.HEALTH * 2.5,
+        SHIELD: base.SHIELD * 1.5,
+        REGEN: base.REGEN,
+        DAMAGE: base.DAMAGE * 2,
+    },
+    GUNS: [],
+    TURRETS: [
+        {
+            POSITION: [11, 0, 0, 0, 360, 1],
+            TYPE: [
+                "single",
+                {
+                    COLOR: -1,
+                },
+            ],
+        },
+    ],
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps1.GUNS.push(
+    );
+    exports.rps1.TURRETS.push(
+        {
+            POSITION: [12, 0, 0, 360 / 3 * (i + 0.5), 0, 0],
+            TYPE: [
+                "rps1_droneGun",
+                {
+                    //INDEPENDENT: (i%2),
+                    COLOR: -1,
+                },
+            ],
+        }
+    );
+};
+
+exports.rps2_droneGun = {
+    PARENT: ["genericTank"],
+    LABEL: "",
+    BODY: {
+        FOV: 30,
+    },
+    COLOR: 16,
+    MAX_CHILDREN: 7,
+    CONTROLLERS: ["nearestDifferentMaster"],
+    AI: {
+        NO_LEAD: true,
+        SKYNET: true,
+        FULL_VIEW: true,
+    },
+    MIRROR_MASTER_ANGLE: true,
+    INDEPENDENT: true,
+    GUNS: [
+        {
+            POSITION: [10, 10, 1.3, 8, 5, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.morespeed, { size: 0.9 }]),
+                TYPE: ["drone", { HITS_OWN_TYPE: "push", BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+            },
+        },
+        {
+            POSITION: [10, 10, 1.3, 8, -5, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.morespeed, { size: 0.9 }]),
+            TYPE: ["drone", { HITS_OWN_TYPE: "push", BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+            },
+        },
+    ],
+};
+exports.rps2 = {
+    PARENT: ["miniboss"],
+    LABEL: "RPS-2",
+    COLOR: 5,
+    SHAPE: 3,
+    SIZE: 24,
+    VALUE: 150000,
+    BODY: {
+        FOV: 1.3,
+        SPEED: base.SPEED * 0.25,
+        HEALTH: base.HEALTH * 3,
+        SHIELD: base.SHIELD * 1.5,
+        REGEN: base.REGEN,
+        DAMAGE: base.DAMAGE * 2.5,
+    },
+    GUNS: [],
+    TURRETS: [
+    ],
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps2.GUNS.push(
+        {
+            POSITION: [6, 8, 0.01, 8, 0, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: -1
+            },
+        },
+    );
+    exports.rps2.TURRETS.push(
+        {
+            POSITION: [12, 0, 0, 360 / 3 * (i + 0.5), 0, 0],
+            TYPE: [
+                "rps2_droneGun",
+                {
+                    //INDEPENDENT: (i%2),
+                    COLOR: -1,
+                },
+            ],
+        },
+        {
+            POSITION: [4.2, 9.3, 0, 360 / 3 * (i + 0), 160, 1],
+            TYPE: [
+                "single",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+    );
+};
+exports.rps2.TURRETS.push(
+    {
+        POSITION: [15, 0, 0, 180, 0, 1],
+        TYPE: ["triangle", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+
+exports.rps3_layer1 = {
+    PARENT: ["genericTank"],
+    LABEL: "",
+    BODY: {
+        FOV: 30,
+    },
+    COLOR: -1,
+    SHAPE: 3,
+    CONTROLLERS: ["nearestDifferentMaster"],
+    AI: {
+        NO_LEAD: true,
+        SKYNET: true,
+        FULL_VIEW: true,
+    },
+    MIRROR_MASTER_ANGLE: true,
+    INDEPENDENT: false,
+    GUNS: [
+        {
+            POSITION: [1, 12, -1.2, 5, 0, 60, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, { size: 1.25 }]),
+                TYPE: "eliteSpawner_sentryS",
+                SYNCS_SKILLS: true,
+                AUTOFIRE: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 2,
+            },
+        },
+        {
+            POSITION: [1, 12, -1.2, 5, 0, 180, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, { size: 1.25 }]),
+                TYPE: "eliteSpawner_sentryT",
+                SYNCS_SKILLS: true,
+                AUTOFIRE: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 2,
+            },
+        },
+        {
+            POSITION: [1, 12, -1.2, 5, 0, 300, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, { size: 1.25 }]),
+                TYPE: "eliteSpawner_sentryG",
+                SYNCS_SKILLS: true,
+                AUTOFIRE: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 2,
+            },
+        },
+    ],
+};
+exports.rps3 = {
+    PARENT: ["miniboss"],
+    LABEL: "RPS-3",
+    COLOR: 5,
+    SHAPE: 3,
+    SIZE: 30,
+    VALUE: 250000,
+    BODY: {
+        FOV: 1.3,
+        SPEED: base.SPEED * 0.25,
+        HEALTH: base.HEALTH * 3,
+        SHIELD: base.SHIELD * 1.5,
+        REGEN: base.REGEN,
+        DAMAGE: base.DAMAGE * 3.6,
+    },
+    GUNS: [],
+    TURRETS: [
+        {
+            POSITION: [23, 0, 0, 0, 0, 0],
+            TYPE: ["triangle", { COLOR: 9, MIRROR_MASTER_ANGLE: true }],
+        },
+    ],
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps3.GUNS.push(
+        {
+            POSITION: [6, 8, 0.01, 8, 0, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+    );
+    exports.rps3.TURRETS.push(
+        {
+            POSITION: [12, 0, 0, 360 / 3 * (i + 0.5), 0, 0],
+            TYPE: [
+                "rps2_droneGun",
+                {
+                    //INDEPENDENT: (i%2),
+                    COLOR: -1,
+                },
+            ],
+        },
+        {
+            POSITION: [4.2, 9.3, 0, 360 / 3 * (i + 0), 160, 1],
+            TYPE: [
+                "gunner",
+                {
+                    COLOR: -1,
+                },
+            ],
+        },
+    );
+};
+exports.rps3.TURRETS.push(
+    {
+        POSITION: [15, 0, 0, 180, 0, 1],
+        TYPE: ["triangle", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+for (let i = 0; i < 3; i++) {
+    exports.rps3.TURRETS.push(
+        {
+            POSITION: [3.6, 6.5, 0, 360 / 3 * (i + 0.5), 160, 1],
+            TYPE: [
+                "single",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+    );
+};
+exports.rps3.TURRETS.push(
+    {
+        POSITION: [9.2, 0, 0, 0, 0, 1],
+        TYPE: ["rps3_layer1", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+
+exports.rps4_layer1 = {
+    PARENT: ["genericTank"],
+    LABEL: "",
+    BODY: {
+        FOV: 30,
+    },
+    COLOR: -1,
+    SHAPE: 3,
+    CONTROLLERS: ["nearestDifferentMaster"],
+    AI: {
+        NO_LEAD: true,
+        SKYNET: true,
+        FULL_VIEW: true,
+    },
+    MIRROR_MASTER_ANGLE: true,
+    INDEPENDENT: false,
+    GUNS: [
+        {
+            POSITION: [1, 12, -1.2, 5, 0, 60, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, { size: 1 }]),
+                TYPE: "eliteSpawner_sentryS",
+                SYNCS_SKILLS: true,
+                AUTOFIRE: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 3,
+            },
+        },
+        {
+            POSITION: [1, 12, -1.2, 5, 0, 180, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, { size: 1 }]),
+                TYPE: "eliteSpawner_sentryT",
+                SYNCS_SKILLS: true,
+                AUTOFIRE: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 3,
+            },
+        },
+        {
+            POSITION: [1, 12, -1.2, 5, 0, 300, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, { size: 1 }]),
+                TYPE: "eliteSpawner_sentryG",
+                SYNCS_SKILLS: true,
+                AUTOFIRE: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 3,
+            },
+        },
+    ],
+};
+exports.rps4_droneGun = {
+    PARENT: ["genericTank"],
+    LABEL: "",
+    BODY: {
+        FOV: 30,
+    },
+    COLOR: 16,
+    CONTROLLERS: ["nearestDifferentMaster"],
+    AI: {
+        NO_LEAD: true,
+        SKYNET: true,
+        FULL_VIEW: true,
+    },
+    MIRROR_MASTER_ANGLE: true,
+    INDEPENDENT: true,
+    GUNS: [
+        {
+            POSITION: [6.2, 4.5, 1.4, 9, -18, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.morespeed, { size: 1.1 }]),
+                TYPE: ["drone", { HITS_OWN_TYPE: "push", BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 4,
+            },
+        },
+        {
+            POSITION: [6.2, 4.5, 1.4, 9, 18, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.morespeed, { size: 1.1 }]),
+                TYPE: ["drone", { HITS_OWN_TYPE: "push", BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 4,
+            },
+        },
+        {
+            POSITION: [9, 10, 1.4, 8, 5, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.mehdrone, { size: 0.9 }]),
+                TYPE: ["betadrone", {BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 1,
+            },
+        },
+        {
+            POSITION: [9, 10, 1.4, 8, -5, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.mehdrone, { size: 0.9 }]),
+                TYPE: ["betadrone", { BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 1,
+            },
+        },
+    ],
+};
+exports.rps4_stackGunner = {
+    PARENT: ["genericTank"],
+    LABEL: "Stack Gunner",
+    CONTROLLERS: ["nearestDifferentMaster"],
+    BODY: {
+        FOv: 2
+    },
+    GUNS: [
+        {
+            POSITION: [12, 3.5, 1, 0, 7.25, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast, g.sniper]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [12, 3.5, 1, 0, -7.25, 0, 0.75],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast, g.sniper]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 2, 1, 0, 3.75, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast, g.sniper, g.hunter, g.hunter2]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 2, 1, 0, -3.75, 0, 0.25],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast, g.sniper, g.hunter, g.hunter2]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [16, 3.5, 1, 0, 3.75, 0, 1/8],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast, g.sniper, g.hunter]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [16, 3.5, 1, 0, -3.75, 0, 3/8],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast, g.sniper, g.hunter]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+};
+exports.rps4 = {
+    PARENT: ["miniboss"],
+    LABEL: "RPS-4",
+    COLOR: 5,
+    SHAPE: 3,
+    SIZE: 40,
+    VALUE: 400000,
+    BODY: {
+        FOV: 1.3,
+        SPEED: base.SPEED * 0.25,
+        HEALTH: base.HEALTH * 5,
+        SHIELD: base.SHIELD * 2.5,
+        REGEN: base.REGEN,
+        DAMAGE: base.DAMAGE * 4,
+    },
+    GUNS: [],
+    TURRETS: [
+        {
+            POSITION: [22, 0, 0, 0, 0, 0],
+            TYPE: ["triangle", { COLOR: 9, MIRROR_MASTER_ANGLE: true }],
+        },
+    ],
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps4.GUNS.push(
+        {
+            POSITION: [6 * 0.9, 7 * 0.9, 0.01, 8, 0, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+        {
+            POSITION: [6 * 0.35, 7 * 0.35, 0.01, 8, 8, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+        {
+            POSITION: [6 * 0.35, 7 * 0.35, 0.01, 8, -8, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+    );
+    exports.rps4.TURRETS.push(
+        {
+            POSITION: [12, 0, 0, 360 / 3 * (i + 0.5), 0, 0],
+            TYPE: [
+                "rps4_droneGun",
+                {
+                    //INDEPENDENT: (i%2),
+                    COLOR: -1,
+                },
+            ],
+        },
+        {
+            POSITION: [3.6, 11, 0, 360 / 3 * (i + 0), 100, 1],
+            TYPE: [
+                "auto4gun",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+    );
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps4.TURRETS.push(
+        {
+            POSITION: [5, -9.3, 0, 360 / 3 * (i + 0.5), 0, 1],
+            TYPE: ["triangle", { SHAPE: 3.5, COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+        },
+    );
+};
+exports.rps4.TURRETS.push(
+    {
+        POSITION: [15, 0, 0, 180, 0, 1],
+        TYPE: ["triangle", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+for (let i = 0; i < 3; i++) {
+    exports.rps4.TURRETS.push(
+        {
+            POSITION: [1.8, 6.5, 5, 360 / 3 * (i + 0.5), 100, 1],
+            TYPE: [
+                "single",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+        {
+            POSITION: [2, 6.5, -5, 360 / 3 * (i + 0.5), 100, 1],
+            TYPE: [
+                "single",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+        {
+            POSITION: [3.6, 6.5, 0, 360 / 3 * (i + 0.5), 160, 1],
+            TYPE: [
+                "rps4_stackGunner",
+                {
+                    COLOR: -1,
+                },
+            ],
+        },
+    );
+};
+exports.rps4.TURRETS.push(
+    {
+        POSITION: [9.2, 0, 0, 0, 0, 1],
+        TYPE: ["rps4_layer1", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+
+exports.rps5_section1 = {
+    PARENT: ["genericTank"],
+    LABEL: "",
+    COLOR: -1,
+    SHAPE: 3,
+    MIRROR_MASTER_ANGLE: true,
+    INDEPENDENT: false,
+    GUNS: [],
+    TURRETS: [
+        {
+            POSITION: [16, 7, 0, 60, 135, 0],
+            TYPE: ["auto4gun"],
+        },
+        {
+            POSITION: [16, 7, 0, 300, 135, 0],
+            TYPE: ["auto4gun"],
+        },
+    ],
+};
+exports.rps5trap = {
+    LABEL: 'Thrown Auto-Trap',
+    PARENT: ["trap"],
+    INDEPENDENT: true,
+    CONTROLLERS: ["nearestDifferentMaster"],
+    DIE_AT_RANGE: true,
+    TURRETS: [
+        {
+        POSITION: [10, 0, 0, 0, 360, 1],
+            TYPE: ["twinTurret_dreaded", { HAS_NO_RECOIL: true }],
+        }
+    ]
+};
+exports.rps5_trapTurret = {
+    PARENT: ["genericTank"],
+    LABEL: "Turret",
+    BODY: {
+        FOV: 2,
+    },
+    INDEPENDENT: true,
+    CONTROLLERS: ["nearestDifferentMaster", 'onlyAcceptInArc'],
+    COLOR: 16,
+    AI: {
+        SKYNET: true,
+        FULL_VIEW: true,
+    },
+    GUNS: [
+        {
+            POSITION: [16, 14, 1, 0, 0, 0, 0],
+        },
+        {
+            POSITION: [5, 14, 1.4, 16, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.trap, g.pound, g.shotgun, g.destroy, g.fast, g.fast, g.doublereload, g.doublereload, { reload: 0.25, shudder: 2, size: 1.25, damage: 0.6, speed: 0.5, range: 0.5 }]),
+                TYPE: "rps5trap",
+                STAT_CALCULATOR: gunCalcNames.trap,
+                AUTOFIRE: true
+            },
+        },
+    ],
+};
+exports.rps5_layer1 = {
+    PARENT: ["genericTank"],
+    LABEL: "",
+    COLOR: -1,
+    SHAPE: 3,
+    MIRROR_MASTER_ANGLE: true,
+    INDEPENDENT: false,
+    GUNS: [],
+    TURRETS: [],
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps5_layer1.GUNS.push(
+        {
+            POSITION: [6 * 0.7, 7 * 0.7, 0.01, 8, 0, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+    );
+    exports.rps5_layer1.TURRETS.push(
+    );
+};
+exports.rps5 = {
+    PARENT: ["miniboss"],
+    LABEL: "RPS-5",
+    COLOR: 5,
+    SHAPE: 3,
+    SIZE: 50,
+    VALUE: 640000,
+    BODY: {
+        FOV: 1.3,
+        SPEED: base.SPEED * 0.25,
+        HEALTH: base.HEALTH * 7.5,
+        SHIELD: base.SHIELD * 3.5,
+        REGEN: base.REGEN,
+        DAMAGE: base.DAMAGE * 5.6,
+    },
+    GUNS: [],
+    TURRETS: [
+        {
+            POSITION: [21.5, 0, 0, 0, 0, 0],
+            TYPE: ["triangle", { COLOR: 9, MIRROR_MASTER_ANGLE: true }],
+        },
+    ],
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps5.GUNS.push(
+        {
+            POSITION: [6 * 0.9, 7 * 0.9, 0.01, 8, 0, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+        {
+            POSITION: [6 * 0.35, 7 * 0.35, 0.01, 8, 8, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+        {
+            POSITION: [6 * 0.35, 7 * 0.35, 0.01, 8, -8, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+        {
+            POSITION: [3, 2, 0.6, 6, 6, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.sniper, g.halfrange, g.morespeed]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [3, 2, 0.6, 6, -6, 360 / 3 * (i + 0.5), 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.sniper, g.halfrange, g.morespeed]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [3, 2, 0.6, 6, 4, 360 / 3 * (i + 0.5), 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.sniper, g.halfrange, g.morespeed]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [3, 2, 0.6, 6, -4, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.sniper, g.halfrange, g.morespeed]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+    );
+    exports.rps5.TURRETS.push(
+        {
+            POSITION: [12, 0, 0, 360 / 3 * (i + 0.5), 0, 0],
+            TYPE: [
+                "rps4_droneGun",
+                {
+                    //INDEPENDENT: (i%2),
+                    COLOR: -1,
+                },
+            ],
+        },
+        {
+            POSITION: [3.6, 11, 0, 360 / 3 * (i + 0), 100, 1],
+            TYPE: [
+                "rps5_trapTurret",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+    );
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps5.TURRETS.push(
+        {
+            POSITION: [5, -9.3, 0, 360 / 3 * (i + 0.5), 0, 1],
+            TYPE: ["triangle", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+        },
+    );
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps5.TURRETS.push(
+        {
+            POSITION: [2.8, 9.3, 0, 360 / 3 * (i + 0), 0, 1],
+            TYPE: ["rps5_section1", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+        },
+    );
+};
+exports.rps5.TURRETS.push(
+    {
+        POSITION: [15, 0, 0, 180, 0, 1],
+        TYPE: ["rps5_layer1", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+for (let i = 0; i < 3; i++) {
+    exports.rps5.TURRETS.push(
+        {
+            POSITION: [1.8, 6.5, 5, 360 / 3 * (i + 0.5), 100, 1],
+            TYPE: [
+                "single",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+        {
+            POSITION: [2, 6.5, -5, 360 / 3 * (i + 0.5), 100, 1],
+            TYPE: [
+                "single",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+        {
+            POSITION: [3.6, 6.5, 0, 360 / 3 * (i + 0.5), 160, 1],
+            TYPE: [
+                "rps4_stackGunner",
+                {
+                    COLOR: -1,
+                },
+            ],
+        },
+        {
+            POSITION: [3.5, 3, 2, 360 / 3 * (i + 0.5), 90, 1],
+            TYPE: [
+                "auto4gun",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+        {
+            POSITION: [3.5, 3, -2, 360 / 3 * (i + 0.5), 90, 1],
+            TYPE: [
+                "auto4gun",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+    );
+};
+exports.rps5.TURRETS.push(
+    {
+        POSITION: [9.4, 0, 0, 0, 0, 1],
+        TYPE: ["rps4_layer1", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+
+exports.rps6_droneGun = {
+    PARENT: ["genericTank"],
+    LABEL: "",
+    BODY: {
+        FOV: 30,
+    },
+    COLOR: 16,
+    CONTROLLERS: ["nearestDifferentMaster"],
+    AI: {
+        NO_LEAD: true,
+        SKYNET: true,
+        FULL_VIEW: true,
+    },
+    MIRROR_MASTER_ANGLE: true,
+    INDEPENDENT: true,
+    GUNS: [
+        {
+            POSITION: [6.2, 4.5, 1.4, 9, -18, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.morespeed, { size: 1.1 }]),
+                TYPE: ["drone", { HITS_OWN_TYPE: "push", BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 5,
+            },
+        },
+        {
+            POSITION: [6.2, 4.5, 1.4, 9, 18, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.morespeed, { size: 1.1 }]),
+                TYPE: ["drone", { HITS_OWN_TYPE: "push", BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 5,
+            },
+        },
+        {
+            POSITION: [9, 10, 1.4, 8, 5, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.mehdrone, { size: 0.66 }]),
+                TYPE: ["betadrone", { BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 2,
+            },
+        },
+        {
+            POSITION: [9, 10, 1.4, 8, -5, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.commander, g.morespeed, g.mehdrone, { size: 0.66 }]),
+                TYPE: ["betadrone", { BODY: { FOV: 1 } }],
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 2,
+            },
+        },
+    ],
+};
+exports.rps6_layer2 = {
+    PARENT: ["genericTank"],
+    LABEL: "",
+    BODY: {
+        FOV: 30,
+    },
+    COLOR: -1,
+    SHAPE: 3.5,
+    CONTROLLERS: ["nearestDifferentMaster"],
+    AI: {
+        NO_LEAD: true,
+        SKYNET: true,
+        FULL_VIEW: true,
+    },
+    MIRROR_MASTER_ANGLE: true,
+    INDEPENDENT: false,
+    GUNS: [
+        {
+            POSITION: [1, 12, -1.2, 5, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, { size: 1 }]),
+                TYPE: "eliteSpawner_sentryS",
+                SYNCS_SKILLS: true,
+                AUTOFIRE: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 3,
+            },
+        },
+        {
+            POSITION: [1, 12, -1.2, 5, 0, 120, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, { size: 1 }]),
+                TYPE: "eliteSpawner_sentryT",
+                SYNCS_SKILLS: true,
+                AUTOFIRE: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 3,
+            },
+        },
+        {
+            POSITION: [1, 12, -1.2, 5, 0, 240, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, { size: 1 }]),
+                TYPE: "eliteSpawner_sentryG",
+                SYNCS_SKILLS: true,
+                AUTOFIRE: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 3,
+            },
+        },
+    ],
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps6_layer2.GUNS.push(
+        {
+            POSITION: [11, 6.5, 1, 0, 4.5, 120 * i, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, { speed: 1.25, maxSpeed: 1.25, range: 0.5 }]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [11, 6.5, 1, 0, -4.5, 120 * i, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, { speed: 1.25, maxSpeed: 1.25, range: 0.5 }]),
+                TYPE: "bullet",
+            },
+        },
+    )
+}
+
+exports.rps6 = {
+    PARENT: ["miniboss"],
+    LABEL: "RPS-6",
+    COLOR: 5,
+    SHAPE: 3,
+    SIZE: 64,
+    VALUE: 1000000,
+    BODY: {
+        FOV: 1.3,
+        SPEED: base.SPEED * 0.25,
+        HEALTH: base.HEALTH * 10,
+        SHIELD: base.SHIELD * 4.2,
+        REGEN: base.REGEN,
+        DAMAGE: base.DAMAGE * 6,
+    },
+    GUNS: [],
+    TURRETS: [
+        {
+            POSITION: [21.5, 0, 0, 0, 0, 0],
+            TYPE: ["triangle", { COLOR: 9, MIRROR_MASTER_ANGLE: true }],
+        },
+    ],
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps6.GUNS.push(
+        {
+            POSITION: [6 * 0.82, 7 * 0.82, 0.01, 8, 0, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+        {
+            POSITION: [6 * 0.3, 7 * 0.3, 0.01, 8, 8, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+        {
+            POSITION: [6 * 0.3, 7 * 0.3, 0.01, 8, -8, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                COLOR: 9
+            },
+        },
+        {
+            POSITION: [3, 2, 0.6, 6, 6, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.sniper, g.halfrange, g.morespeed]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [3, 2, 0.6, 6, -6, 360 / 3 * (i + 0.5), 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.sniper, g.halfrange, g.morespeed]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [3, 2, 0.6, 6, 4, 360 / 3 * (i + 0.5), 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.sniper, g.halfrange, g.morespeed]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [3, 2, 0.6, 6, -4, 360 / 3 * (i + 0.5), 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.sniper, g.halfrange, g.morespeed]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+    );
+    exports.rps6.TURRETS.push(
+        {
+            POSITION: [12, 0, 0, 360 / 3 * (i + 0.5), 0, 0],
+            TYPE: [
+                "rps6_droneGun",
+                {
+                    //INDEPENDENT: (i%2),
+                    COLOR: -1,
+                },
+            ],
+        },
+        {
+            POSITION: [3.6, 11, 0, 360 / 3 * (i + 0), 100, 1],
+            TYPE: [
+                "rps5_trapTurret",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+    );
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps6.TURRETS.push(
+        {
+            POSITION: [5, -9.3, 0, 360 / 3 * (i + 0.5), 0, 1],
+            TYPE: ["triangle", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+        },
+    );
+};
+for (let i = 0; i < 3; i++) {
+    exports.rps6.TURRETS.push(
+        {
+            POSITION: [2.8, 9.3, 0, 360 / 3 * (i + 0), 0, 1],
+            TYPE: ["rps5_section1", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+        },
+    );
+};
+exports.rps6.TURRETS.push(
+    {
+        POSITION: [15, 0, 0, 180, 0, 1],
+        TYPE: ["rps5_layer1", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+for (let i = 0; i < 3; i++) {
+    exports.rps6.TURRETS.push(
+        {
+            POSITION: [1.8, 6.5, 5, 360 / 3 * (i + 0.5), 100, 1],
+            TYPE: [
+                "single",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+        {
+            POSITION: [2, 6.5, -5, 360 / 3 * (i + 0.5), 100, 1],
+            TYPE: [
+                "single",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+        {
+            POSITION: [3.6, 6.5, 0, 360 / 3 * (i + 0.5), 160, 1],
+            TYPE: [
+                "rps4_stackGunner",
+                {
+                    COLOR: -1,
+                },
+            ],
+        },
+        {
+            POSITION: [2.5, 3.5, 3.4, 360 / 3 * (i + 0.5), 90, 1],
+            TYPE: [
+                "auto4gun",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+        {
+            POSITION: [2.5, 3.5, -3.4, 360 / 3 * (i + 0.5), 90, 1],
+            TYPE: [
+                "auto4gun",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+        {
+            POSITION: [2.75, 3.5, 0, 360 / 3 * (i + 0.5), 0, 1],
+            TYPE: [
+                "overseer",
+                {
+                    COLOR: 16,
+                },
+            ],
+        },
+    );
+};
+exports.rps6.TURRETS.push(
+    {
+        POSITION: [9.4, 0, 0, 0, 0, 1],
+        TYPE: ["triangle", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+for (let i = 0; i < 3; i++) {
+    exports.rps6.TURRETS.push(
+        {
+            POSITION: [2.2, 4.2, 0, 360 / 3 * (i + 0), 160, 1],
+            TYPE: [
+                "rps4_stackGunner",
+                {
+                    COLOR: -1,
+                },
+            ],
+        },
+    );
+};
+exports.rps6.TURRETS.push(
+    {
+        POSITION: [6, 0, 0, 0, 180, 1],
+        TYPE: ["rps6_layer2", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+    },
+);
+
+exports.rps1.UPGRADES_TIER_0 = ["rps2"];
+exports.rps2.UPGRADES_TIER_0 = ["rps3"];
+exports.rps3.UPGRADES_TIER_0 = ["rps4"];
+exports.rps4.UPGRADES_TIER_0 = ["rps5"];
+exports.rps5.UPGRADES_TIER_0 = ["rps6"];
+
 //Misc Bosses(Experimental, OP)
 
 // Experimental Bosses
@@ -7154,7 +8305,7 @@ exports.heartbreaker = {
     ],
 };
 
-// Luminohelix (Probably the most complex boss in this server)
+// Luminohelix (Probably the most complex boss in this server, it's fucking difficult to place turrets perfectly)
 
 exports.luminohelixgun1 = {
     PARENT: ["genericTank"],

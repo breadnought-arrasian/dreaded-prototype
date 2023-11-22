@@ -149,10 +149,6 @@ exports.tieredBosses = {
     PARENT: ["menu"],
     LABEL: "Tiered Bosses",
 };
-exports.srkX = {
-    PARENT: ["menu"],
-    LABEL: "SRK-X",
-};
 exports.diepBosses = {
     PARENT: ["menu"],
     LABEL: "Diep Bosses",
@@ -2127,6 +2123,77 @@ exports.ek6Top = {
     }]
 };
 
+// funni
+
+exports.PGunner_railgun = {
+    PARENT: ["genericTank"],
+    LABEL: "Railgun",
+    BODY: {
+        FOV: 3,
+        SPEED: 0.1
+    },
+    CONTROLLERS: ["nearestDifferentMaster"],
+    INDEPENDENT: true,
+    GUNS: [
+        {
+        POSITION: [13, 8.5, 1, 8, 0, 0, 0,],
+    }, { /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+        POSITION: [25, 5, 1, 0, 0, 0, 0,],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.rail]),
+            TYPE: "bullet",
+        },
+    }, {
+        POSITION: [5, 8.5, -1.6, 8, 0, 0, 0,],
+    },
+    ],
+    TURRETS: [
+        {
+        POSITION: [12, 0, 0, 0, 360, 1],
+        TYPE: ["genericEntity", { COLOR: 12 }]
+        }
+    ]
+};
+exports.precisionGunner = {
+    PARENT: ["genericTank"],
+    LABEL: "Precision Gunner",
+    DANGER: 7,
+    GUNS: [
+        {
+            POSITION: [12, 3.5, 1, 0, 7.25, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [12, 3.5, 1, 0, -7.25, 0, 0.75],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [16, 3.5, 1, 0, 3.75, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [16, 3.5, 1, 0, -3.75, 0, 0.25],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.puregunner, g.fast]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+    TURRETS: [{
+        POSITION: [12, 0, 0, 180, 360, 1],
+        TYPE: "PGunner_railgun"
+    }]
+};
+
 // DEV "UPGRADE PATHS"
 exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "tools", "addons"];
     exports.tanks.UPGRADES_TIER_0 = ["basic", "healer", "specialTanks", "legacyTanks", "funTanks", "testingTanks"];
@@ -2135,8 +2202,8 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "tools", "addons"];
                 exports.dominators.UPGRADES_TIER_0 = ["dominator", "destroyerDominator", "gunnerDominator", "trapperDominator"];
                 exports.sanctuaries.UPGRADES_TIER_0 = [];
         exports.legacyTanks.UPGRADES_TIER_0 = ["weirdSpike", "oldBentBoomer", "quadBuilder", "master", "blunderbuss", "oldRimfire", "oldSpreadshot", "oldCommander", "autoTrapper", "prodigy", "mender", "tetraGunner", "corvette", "whirlwind", "flail"];
-        exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", "randomTankTemp", "miniFortClock", "coolShit", "inferiusOvum", "ek6Top"];
-        exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest", ["assassin", "dreadOfficialV1"], "IonCannon"];
+        exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", "randomTankTemp", "miniFortClock", "coolShit", "inferiusOvum", "ek6Top", "precisionGunner"];
+        exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest", ["assassin", "dreadOfficialV1"], "IonCannon", "oldCommanderGun", "rps1_droneGun", "autoTankGun", "auto4gun"];
 
     exports.bosses.UPGRADES_TIER_0 = ["sentries", "elites", "mysticals", "nesters", "rogues", "terrestrials", "celestials", "eternals", "tieredBosses", "diepBosses", "miscBosses", "laggyBosses", "devBosses"];
         exports.sentries.UPGRADES_TIER_0 = ["sentrySwarm", "sentryGun", "sentryTrap", "shinySentrySwarm", "shinySentryGun", "shinySentryTrap"];
@@ -2147,8 +2214,7 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "tools", "addons"];
         exports.terrestrials.UPGRADES_TIER_0 = ["ares", "gersemi", "ezekiel", "eris", "selene"];
         exports.celestials.UPGRADES_TIER_0 = ["paladin", "freyja", "zaphkiel", "nyx", "theia"];
         exports.eternals.UPGRADES_TIER_0 = ["ragnarok", "kronos"];
-        exports.tieredBosses.UPGRADES_TIER_0 = ["srkX"];
-            exports.srkX.UPGRADES_TIER_0 = ["srk1"];
+        exports.tieredBosses.UPGRADES_TIER_0 = ["srk1", "rps1"];
         exports.diepBosses.UPGRADES_TIER_0 = ["guardianOfThePentagons","defender"];
         exports.miscBosses.UPGRADES_TIER_0 = ["hypernovaBoss", "fortClock", "heartbreaker", "luminohelix"];
         exports.laggyBosses.UPGRADES_TIER_0 = ["laggyBosses2"];

@@ -31,7 +31,7 @@ module.exports = {
     spread: { reload: 1.5, shudder: 0.25, speed: 0.7, maxSpeed: 0.7, spray: 0.25 },
     triple: { reload: 1.2, recoil: 0.667, shudder: 0.9, damage: 0.85, pen: 0.9, speed: 1.1, density: 1.1, spray: 0.9, resist: 0.95 },
     quint: { reload: 1.5, recoil: 0.667, shudder: 0.9, pen: 0.9, speed: 1.1, density: 1.1, spray: 0.9, resist: 0.95 },
-    turret: { reload: 2, health: 0.8, damage: 0.6, pen: 0.7, density: 0.1 },
+    turret: { reload: 1.5, health: 0.8, damage: 0.6, pen: 0.7, speed: 0.9, maxSpeed: 0.9, density: 0.1 },
 
     // Snipers
     sniper: { reload: 1.35, shudder: 0.25, damage: 0.8, pen: 1.1, speed: 1.5, maxSpeed: 1.5, density: 1.5, spray: 0.2, resist: 1.15 },
@@ -50,6 +50,7 @@ module.exports = {
     arquebus: [1.5, 1, 1, 1, 0.8, 0.8, 1, 1, 1, 1, 1.6, 0.5, 1.5],
     rail: { reload: 10, shudder: 0.01, size: 0.8, health: 2, damage: 2, pen: 1.2, speed: 1.5, maxSpeed: 1.5, density: 2, spray: 0.01 },
     dual2: { reload: 1, recoil: 1, shudder: 0.8, size: 1, health: 0.5, damage: 0.55, pen: 0.7, speed: 1, maxSpeed: 1, range: 1, density: 1, spray: 1, resist: 0.75 },
+    carnivore: { reload: 1.5, recoil: 0.8, pen: 1.2, speed: 1.2, maxSpeed: 1.1, resist: 1.5 },
 
     // Machine guns
     mach: { reload: 0.5, recoil: 0.8, shudder: 1.7, health: 0.7, damage: 0.7, maxSpeed: 0.8, spray: 2.5 },
@@ -99,20 +100,24 @@ module.exports = {
     bigdrone: { size: 1.8, health: 2.5, speed: 1.25 },
     mothership: { reload: 1.25, pen: 1.1, speed: 0.775, maxSpeed: 0.8, range: 15, resist: 1.15 },
     powerspawn: { reload: 1.5, size: 1.25, damage: 1.2, maxSpeed: 0.75 },
+    hive2: { speed: 0.2, maxSpeed: 1.25 },
 
     // Heavy cannons
     pound: { reload: 2, recoil: 1.6, damage: 2, speed: 0.85, maxSpeed: 0.8, density: 1.5, resist: 1.15 },
     destroy: { reload: 2.2, recoil: 1.8, shudder: 0.5, health: 2, damage: 2, pen: 1.2, speed: 0.65, maxSpeed: 0.5, density: 2, resist: 3 },
     anni: { reload: 0.8, recoil: 1.25 },
-    hive: { reload: 1.5, recoil: 0.8, size: 0.8, health: 0.7, damage: 0.3, maxSpeed: 0.6 },
+    hive: { reload: 1.5, recoil: 0.8, size: 0.8, health: 0.7, damage: 0.3, maxSpeed: 0.85 },
     arty: { reload: 1.2, recoil: 0.7, size: 0.9, speed: 1.15, maxSpeed: 1.1, density: 1.5 },
     mortar: { reload: 1.2, health: 1.1, speed: 0.8, maxSpeed: 0.8 },
     destroyerDominator: { reload: 6.5, recoil: 0, size: 0.975, health: 6, damage: 6, pen: 6, speed: 0.575, maxSpeed: 0.475, spray: 0.5 },
-    shotgun: { reload: 9, recoil: 0.4, size: 1.5, damage: 0.75, pen: 0.9, speed: 1.8, maxSpeed: 0.6, density: 1.2, spray: 1 },
-    multi: { reload: 0.66, recoil: 0.9, spray: 0.9 },
+    shotgun: { reload: 9, recoil: 0.4, size: 1.5, damage: 0.6, pen: 0.9, speed: 1.8, maxSpeed: 0.6, density: 1.2, spray: 1 },
+    multi: { reload: 0.66, recoil: 0.9, damage: 1.2, spray: 0.9 },
     pitcher: { reload: 1.25, recoil: 0.5, speed: 1.33, maxSpeed: 2 },
     super_auto: { reload: 2.5, recoil: 0.01, shudder: 0.65, size: 0.9, health: 0.85, damage: 0.75, pen: 1.15, speed: 1.2, maxSpeed: 1.2, range: 1, density: 1.3, spray: 1.1, resist: 1.25 },
     slosher: { reload: 1.1, size: 3, health: 0.6, damage: 1, speed: 2, maxSpeed: 2, range: 0.33, spray: 0.33 },
+    cluster: { shudder: 1.5, health: 0.6, pen: 0.8, maxSpeed: 0.25, spray: 2.4 }, 
+    recursor: { speed: 1.5, maxSpeed: 0.25 },
+    boomstick: { reload: 1.5, recoil: 1.25, shudder: 1.3, speed: 0.8, maxSpeed: 0.7, spray: 1.3 },
 
     // Missiles
     launcher: { reload: 1.5, recoil: 1.5, shudder: 0.1, size: 0.72, health: 1.05, damage: 0.925, speed: 0.9, maxSpeed: 1.2, range: 1.1, resist: 1.5 },
@@ -136,7 +141,8 @@ module.exports = {
     placer: { reload: 1.5, recoil: 0.001, shudder: 0.001, size: 1.33, range: 3, density: 2 },
     megatrap: { reload: 0.8, shudder: 0.6, size: 1.3, health: 0.9, damage: 0.9, speed: 1.1, density: 2, spray: 0.7 },
     gigatrap: [0.75, 1, 0.6, 1, 1, 0.86, 1, 1.25, 1.2, 1.2, 1.5, 0.7, 1],
-    alpha: { reload: 1.5, recoil: 1.4, shudder: 0.8, health: 1.1, damage: 1.6, pen: 1.25, density: 2, spray: 0.5 },
+    alpha: { reload: 1.5, recoil: 1.4, shudder: 0.8, health: 1.1, damage: 1.6, pen: 1.25, density: 2, maxSpeed: 0.8, spray: 0.5 },
+    omega: { reload: 1.5, recoil: 2, shudder: 0.66, size: 1.1, damage: 1.5, pen: 1.2, maxSpeed: 0.9, density: 2, spray: 0.5 },
 
     // Recoil
     tonsmorrecoil: { recoil: 4 },

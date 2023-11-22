@@ -551,6 +551,46 @@ exports.hyperspinmissile = {
     ],
 };
 
+exports.protoHive = {
+    PARENT: ["bullet"],
+    LABEL: "Proto-Hive",
+    BODY: {
+        RANGE: 90,
+        FOV: 0.5,
+    },
+    FACING_TYPE: "turnWithSpeed",
+    INDEPENDENT: true,
+    CONTROLLERS: ["alwaysFire", "nearestDifferentMaster"],
+    AI: {
+        NO_LEAD: false,
+    },
+    GUNS: [
+        {
+            POSITION: [7, 9.5, 0.6, 7, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees, g.hive2]),
+                TYPE: ["bee", { INDEPENDENT: true }],
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [7, 9.5, 0.6, 7, 0, 120, 0.2],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees, g.hive2]),
+                TYPE: ["bee", { INDEPENDENT: true }],
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [7, 9.5, 0.6, 7, 0, -120, 0.4],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees, g.hive2]),
+                TYPE: ["bee", { INDEPENDENT: true }],
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+    ],
+};
 exports.hive = {
     PARENT: ["bullet"],
     LABEL: "Hive",
@@ -560,15 +600,15 @@ exports.hive = {
     },
     FACING_TYPE: "turnWithSpeed",
     INDEPENDENT: true,
-    CONTROLLERS: ["alwaysFire", "nearestDifferentMaster", "targetSelf"],
+    CONTROLLERS: ["alwaysFire", "nearestDifferentMaster"],
     AI: {
-        NO_LEAD: true,
+        NO_LEAD: false,
     },
     GUNS: [
         {
             POSITION: [7, 9.5, 0.6, 7, 0, 108, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees]),
+                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees, g.hive2]),
                 TYPE: "bee",
                 STAT_CALCULATOR: gunCalcNames.swarm,
             },
@@ -576,7 +616,7 @@ exports.hive = {
         {
             POSITION: [7, 9.5, 0.6, 7, 0, 180, 0.2],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees]),
+                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees, g.hive2]),
                 TYPE: "bee",
                 STAT_CALCULATOR: gunCalcNames.swarm,
             },
@@ -584,7 +624,7 @@ exports.hive = {
         {
             POSITION: [7, 9.5, 0.6, 7, 0, 252, 0.4],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees]),
+                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees, g.hive2]),
                 TYPE: "bee",
                 STAT_CALCULATOR: gunCalcNames.swarm,
             },
@@ -592,7 +632,7 @@ exports.hive = {
         {
             POSITION: [7, 9.5, 0.6, 7, 0, 324, 0.6],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees]),
+                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees, g.hive2]),
                 TYPE: "bee",
                 STAT_CALCULATOR: gunCalcNames.swarm,
             },
@@ -600,7 +640,7 @@ exports.hive = {
         {
             POSITION: [7, 9.5, 0.6, 7, 0, 36, 0.8],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees]),
+                SHOOT_SETTINGS: combineStats([g.swarm, g.hive, g.bees, g.hive2]),
                 TYPE: "bee",
                 STAT_CALCULATOR: gunCalcNames.swarm,
             },
@@ -1264,14 +1304,14 @@ exports.auto4gun = {
         {
             POSITION: [16, 4, 1, 0, -3.5, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.auto, g.gunner, g.twin, g.power, g.slow]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.auto, g.gunner, g.twin, g.power, g.bitlesspower]),
                 TYPE: "bullet",
             },
         },
         {
             POSITION: [16, 4, 1, 0, 3.5, 0, 0.5],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.auto, g.gunner, g.twin, g.power, g.slow]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.auto, g.gunner, g.twin, g.power, g.bitlesspower]),
                 TYPE: "bullet",
             },
         },
@@ -1676,7 +1716,32 @@ exports.pillboxTurret = {
         {
             POSITION: [22, 11, 1, 0, 0, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.minion, g.turret, g.power, g.auto, g.notdense]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.minion, g.turret, g.power, g.auto, g.notdense, g.slow, g.bitmorepower]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+};
+exports.twinPillboxTurret = {
+    PARENT: ["genericTank"],
+    LABEL: "Turret",
+    COLOR: 16,
+    BODY: {
+        FOV: 2,
+    },
+    HAS_NO_RECOIL: true,
+    GUNS: [
+        {
+            POSITION: [20, 7, 1, 0, 5.5, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.minion, g.turret, g.power, g.auto, g.notdense, g.slow, g.bitmorepower]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [20, 7, 1, 0, -5.5, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.minion, g.turret, g.power, g.auto, g.notdense, g.slow, g.bitmorepower]),
                 TYPE: "bullet",
             },
         },
@@ -1695,7 +1760,7 @@ exports.autotrapTurret = {
         {
         POSITION: [22, 11, 1, 0, 0, 0, 0,],
         PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.minion, g.turret, g.power, g.auto, g.notdense, g.lessreload, g.bitlesspower]),
+            SHOOT_SETTINGS: combineStats([g.basic, g.minion, g.turret, g.power, g.auto, g.notdense, g.lessreload, g.bitlesspower, g.slow, g.bitmorepower]),
             TYPE: "bullet",
         },
     },
@@ -1718,6 +1783,25 @@ exports.pillbox = {
         {
             POSITION: [11, 0, 0, 0, 360, 1],
             TYPE: "pillboxTurret",
+        },
+    ],
+};
+exports.twinPillbox = {
+    LABEL: "Pillbox",
+    PARENT: ["trap"],
+    SHAPE: -4,
+    MOTION_TYPE: "motor",
+    CONTROLLERS: ["goToMasterTarget", "nearestDifferentMaster"],
+    INDEPENDENT: true,
+    BODY: {
+        SPEED: 1,
+        DENSITY: 5,
+    },
+    DIE_AT_RANGE: true,
+    TURRETS: [
+        {
+            POSITION: [11, 0, 0, 0, 360, 1],
+            TYPE: "twinPillboxTurret",
         },
     ],
 };
@@ -1744,6 +1828,236 @@ exports.autotrap = {
         POSITION: [9, 0, 0, 0, 360, 1],
         TYPE: "autotrapTurret",
     }
+    ]
+};
+
+exports.bombExplosion = {
+    PARENT: ["bullet"],
+    LABEL: "",
+    BODY: {
+        SPEED: 0,
+        HEALTH: 99999999999999,
+        DAMAGE: 0.0001,
+        RANGE: 1,
+    },
+    INVISIBLE: [0, 1],
+    GUNS: [],
+};
+for (let i = 0; i < 12; i++) {
+    exports.bombExplosion.GUNS.push(
+        {
+            POSITION: [1, 6, 1, 0, 0, 360 / 12 * i, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.twin,
+                    g.twin,
+                    g.puregunner,
+                    g.hurricane,
+                    g.power,
+                    g.halfrange,
+                    g.slow
+                ]),
+                TYPE: ["bullet", { PERSISTS_AFTER_DEATH: true, }],
+                AUTOFIRE: true,
+            },
+        },
+    )
+};
+exports.bombmissile = {
+    PARENT: ["missile"],
+    LABEL: "Bomb",
+    NEXT_FORM: "bombExplosion",
+    BODY: {
+        RANGE: 90
+    },
+    GUNS: [
+        {
+            /*** LENGTH    WIDTH     ASPECT        X             Y         ANGLE     DELAY */
+            POSITION: [14, 6, 1, 0, 0, 180, 0],
+            PROPERTIES: {
+                AUTOFIRE: true,
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.skim,
+                    g.doublereload,
+                    g.lowpower,
+                    g.muchmorerecoil,
+                    g.morespeed,
+                    g.halfreload
+                ]),
+                TYPE: ["bullet", { PERSISTS_AFTER_DEATH: true }],
+                STAT_CALCULATOR: gunCalcNames.thruster,
+            },
+        },
+    ],
+    TURRETS: [{
+        POSITION: [9, 0, 0, 0, 360, 1],
+        TYPE: ["genericEntity"],
+    },]
+};
+
+exports.bombmissile2 = {
+    PARENT: ["missile"],
+    LABEL: "Bomb",
+    NEXT_FORM: "bombExplosion",
+    BODY: {
+        RANGE: 35
+    },
+    GUNS: [
+        {
+            /*** LENGTH    WIDTH     ASPECT        X             Y         ANGLE     DELAY */
+            POSITION: [14, 6, 1, 0, 0, 180, 0],
+            PROPERTIES: {
+                AUTOFIRE: true,
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.skim,
+                    g.doublereload,
+                    g.lowpower,
+                    g.muchmorerecoil,
+                    g.morespeed,
+                    g.halfreload,
+                    //{ recoil: 0.01 }
+                ]),
+                TYPE: ["bullet", { PERSISTS_AFTER_DEATH: true }],
+                STAT_CALCULATOR: gunCalcNames.thruster,
+            },
+        },
+    ],
+    TURRETS: [{
+        POSITION: [9, 0, 0, 0, 360, 1],
+        TYPE: ["genericEntity"],
+    },]
+};
+
+exports.bombmissile3 = {
+    PARENT: ["missile"],
+    LABEL: "Bomb",
+    NEXT_FORM: "bombExplosion",
+    BODY: {
+        RANGE: 90
+    },
+    GUNS: [],
+    TURRETS: [{
+        POSITION: [9, 0, 0, 0, 360, 1],
+        TYPE: ["genericEntity"],
+    },]
+};
+
+exports.miniBombExplosion = {
+    PARENT: ["bullet"],
+    LABEL: "",
+    BODY: {
+        SPEED: 0,
+        HEALTH: 99999999999999,
+        DAMAGE: 0.0001,
+        RANGE: 1,
+    },
+    INVISIBLE: [0, 1],
+    GUNS: [],
+};
+for (let i = 0; i < 10; i++) {
+    exports.miniBombExplosion.GUNS.push(
+        {
+            POSITION: [1, 6, 1, 0, 0, 360 / 10 * i, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.twin,
+                    g.twin,
+                    g.puregunner,
+                    g.hurricane,
+                    g.power,
+                    g.halfrange,
+                    g.slow,
+                    g.twin
+                ]),
+                TYPE: ["bullet", { PERSISTS_AFTER_DEATH: true, }],
+                AUTOFIRE: true,
+            },
+        },
+    )
+};
+exports.bombmissile4 = {
+    PARENT: ["missile"],
+    LABEL: "Bomb",
+    NEXT_FORM: "miniBombExplosion",
+    BODY: {
+        RANGE: 20
+    },
+    GUNS: [],
+    TURRETS: [{
+        POSITION: [9, 0, 0, 0, 360, 1],
+        TYPE: ["genericEntity"],
+    },]
+};
+
+exports.bombExplosion2 = {
+    PARENT: ["bullet"],
+    LABEL: "",
+    BODY: {
+        SPEED: 0,
+        HEALTH: 99999999999999,
+        DAMAGE: 0.0001,
+        RANGE: 1,
+    },
+    INVISIBLE: [0, 1],
+    GUNS: [],
+};
+for (let i = 0; i < 3; i++) {
+    exports.bombExplosion2.GUNS.push(
+        {
+            POSITION: [1, 12, 1, 0, 0, 360 / 3 * i, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.pound,
+                    g.slow,
+                    g.twin
+                ]),
+                TYPE: ["bombmissile4", { PERSISTS_AFTER_DEATH: true, }],
+                AUTOFIRE: true,
+            },
+        },
+    )
+};
+exports.hyperBombmissile = {
+    PARENT: ["missile"],
+    LABEL: "Bomb",
+    NEXT_FORM: "bombExplosion2",
+    BODY: {
+        RANGE: 90
+    },
+    GUNS: [
+        {
+            /*** LENGTH    WIDTH     ASPECT        X             Y         ANGLE     DELAY */
+            POSITION: [14, 6, 1, 0, 0, 180, 0],
+            PROPERTIES: {
+                AUTOFIRE: true,
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.skim,
+                    g.doublereload,
+                    g.lowpower,
+                    g.muchmorerecoil,
+                    g.morespeed,
+                    g.halfreload
+                ]),
+                TYPE: ["bullet", { PERSISTS_AFTER_DEATH: true }],
+                STAT_CALCULATOR: gunCalcNames.thruster,
+            },
+        },
+    ],
+    TURRETS: [
+        {
+        POSITION: [11, 0, 0, 0, 360, 1],
+        TYPE: ["genericEntity"],
+        },
+        {
+            POSITION: [6, 0, 0, 0, 360, 1],
+            TYPE: ["genericEntity"],
+        },
     ]
 };
 
@@ -1835,6 +2149,7 @@ exports.homingBullet = {
 
 exports.target = {
     COLOR: 17,
+    MIRROR_MASTER_ANGLE: true,
     SHAPE: "M -21726.1993 -238.92439999999988 C -21726.1993 -11999.275862896917 -12192.55076289692 -21532.9244 -432.1993000000075 -21532.924400000004 5215.320634643242 -21532.924400000004 10631.53285591389 -19289.455841258798 14624.932498586342 -15296.05619858635 18618.33214125879 -11302.6565559139 20861.8007 -5886.444334643253 20861.8007 -238.92440000000352 20861.8007 11521.427062896913 11328.15216289692 21055.0756 -432.1992999999966 21055.0756 -12192.550762896914 21055.0756 -21726.199299999997 11521.42706289692 -21726.1993 -238.92439999999624 Z M -17877.52174 -238.92439999999988 C -17877.521739999996 9395.861139492925 -10066.984839492927 17206.398039999996 -432.1993000000002 17206.398039999996 9202.586239492925 17206.398039999996 17013.123140000003 9395.861139492925 17013.123140000003 -238.92440000000352 17013.123140000003 -9873.709939492932 9202.586239492932 -17684.246840000003 -432.1992999999966 -17684.246840000003 -10066.984839492921 -17684.246839999996 -17877.521739999996 -9873.709939492923 -17877.52173999999 -238.92439999999624 Z M -11711.1453 -2840.6749 L -11675.1453 2595.3251 -32111.1453 2595.3251 -32147.1453 -2840.6749 Z M 10823.1455 2366.994 L 10811.1455 -3081.006 31271.1455 -3069.006 31283.1455 2378.994 Z M 2180.6576 -11495.9543 L -3267.3424 -11507.9543 -3255.3424 -31955.954299999998 2192.6576 -31943.954299999998 Z M -3027.0113 11038.3365 L 2408.9887 11014.3365 2420.9887 31462.336499999998 -3015.0113 31486.336499999998 Z"
 };
 exports.precisionProp = {
@@ -5875,7 +6190,7 @@ exports.overlord = {
     ],
 };
 exports.autoOverseer = makeAuto(exports.overseer);
-exports.turretedDrone = makeAuto(generics.drone);
+exports.turretedDrone = makeAuto(generics.drone, { type: "autotrapTurret", size: 9});
 exports.overdriveDeco = makeDeco(4);
 exports.overdrive = {
     PARENT: ["genericTank"],
@@ -7614,7 +7929,7 @@ exports.swarmer = {
             },
         },
         {
-            POSITION: [15, 12, 1, 5, 0, 0, 0],
+            POSITION: [14, 13, 1, 5, 0, 0, 0],
         },
     ],
 };
@@ -9278,7 +9593,7 @@ exports.watcher_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -9473,6 +9788,35 @@ exports.duo_dreaded = {
     ],
     TURRETS: []
 };
+exports.flank_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Flank",
+    BODY: {},
+    GUNS: [
+        {
+            POSITION: [18, 8, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 120, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 240, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+    TURRETS: []
+};
 exports.guard_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Guard",
@@ -9544,7 +9888,7 @@ exports.protector_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 90, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -9556,7 +9900,7 @@ exports.protector_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, -90, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -10075,6 +10419,7 @@ exports.minigun_dreaded = {
 exports.hunter_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Hunter",
+    DANGER: 6,
     BODY: {
         FOV: base.FOV * 1.25
     },
@@ -10191,6 +10536,29 @@ exports.multishot_dreaded = {
     ],
     TURRETS: []
 };
+exports.launcher_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Launcher",
+    DANGER: 6,
+    BODY: {
+        FOV: base.FOV * 1.2
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [10, 9, 1, 9, 0, 0, 0],
+        },
+        {
+            POSITION: [17, 13, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.arty, g.arty]),
+                TYPE: "minimissile",
+                STAT_CALCULATOR: gunCalcNames.sustained,
+            },
+        },
+    ],
+    TURRETS: []
+};
 exports.trio_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Trio",
@@ -10273,6 +10641,96 @@ exports.submachine_dreaded = { //6 barrels
     },
     ],
 };
+exports.hexa_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Hexa",
+    DANGER: 6,
+    BODY: {},
+    GUNS: [
+        {
+            POSITION: [18, 8, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 120, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 240, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 60, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 180, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 300, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+    TURRETS: []
+};
+exports.triAngle_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Tri-Angle",
+    DANGER: 6,
+    BODY: {},
+    GUNS: [
+        {
+            POSITION: [18, 8, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.flank,
+                    g.tri,
+                    g.trifront,
+                    g.tonsmorrecoil,
+                ]),
+                TYPE: "bullet",
+                LABEL: "Front",
+            },
+        },
+        {
+            POSITION: [16, 8, 1, 0, 0, 150, 0.1],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.tri, g.thruster]),
+                TYPE: "bullet",
+                LABEL: gunCalcNames.thruster,
+            },
+        },
+        {
+            POSITION: [16, 8, 1, 0, 0, 210, 0.1],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.tri, g.thruster]),
+                TYPE: "bullet",
+                LABEL: gunCalcNames.thruster,
+            },
+        },
+    ],
+    TURRETS: []
+};
 exports.assassin_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Assassin",
@@ -10330,6 +10788,33 @@ exports.overseer_dreaded = {
     ],
     TURRETS: []
 };
+exports.directordrive_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Directordrive",
+    DANGER: 6,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [7, 11, 1.3, 7, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.bitmorepower, g.bitmorepower]),
+                TYPE: "turretedDrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 5,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5, 6.5, 1, 7, 0, 0, 0],
+        },
+    ],
+    TURRETS: []
+};
 exports.commander_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Commander",
@@ -10342,7 +10827,7 @@ exports.commander_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -10354,7 +10839,7 @@ exports.commander_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 120, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -10366,7 +10851,7 @@ exports.commander_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 240, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -10393,7 +10878,7 @@ exports.betaDirector_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6.7, 12.5, 1.3, 7, 0, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.over, g.pound, { size: 1.5, reload: 0.4, maxSpeed: 1.2 }]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.over, g.pound, { size: 1.5, reload: 0.4, maxSpeed: 1.35 }]),
                 TYPE: "betadrone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -10901,7 +11386,7 @@ exports.thorn_dreaded = {
     LABEL: "Thorn",
     BODY: {
         SPEED: 1.225,
-        DAMAGE: 2.75,
+        DAMAGE: 2.85,
         HEALTH: 0.85
     },
     TURRETS: [
@@ -10936,11 +11421,12 @@ exports.trailerTurret_dreaded = {
     HAS_NO_RECOIL: true,
     //CONTROLLERS: [["spin", { independent: true, speed: 0.02 }]],
     SHAPE: -3,
+    MIRROR_MASTER_ANGLE: true,
     GUNS: [
         {
             POSITION: [1, 10, 1, 0, 0, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.trap, g.noRandom, g.twin, { recoil: 0.001, size: 2, speed: 0.001, maxSpeed: 0.001 }]),
+                SHOOT_SETTINGS: combineStats([g.trap, g.twin, { recoil: 0.001, size: 2, speed: 0.5, range: 0.8 }]),
                 TYPE: "trap",
             },
         },
@@ -10951,15 +11437,15 @@ exports.trailer_dreaded = {
     LABEL: "Trailer",
     TURRETS: [
         {
-            POSITION: [6, 5.5, 0, 0, 360, 1],
+            POSITION: [6, 5.5, 0, 0, 0, 1],
             TYPE: "trailerTurret_dreaded",
         },
         {
-            POSITION: [6, 5.5, 0, 120, 360, 1],
+            POSITION: [6, 5.5, 0, 120, 0, 1],
             TYPE: "trailerTurret_dreaded",
         },
         {
-            POSITION: [6, 5.5, 0, 240, 360, 1],
+            POSITION: [6, 5.5, 0, 240, 0, 1],
             TYPE: "trailerTurret_dreaded",
         },
     ],
@@ -11231,6 +11717,71 @@ exports.vulcan_dreaded = { //8 barrels
         },
     ],
 };
+exports.octo_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Octo",
+    DANGER: 7,
+    BODY: {},
+    GUNS: [
+        {
+            POSITION: [18, 8, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 90, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 180, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 270, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 45, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 135, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 225, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 315, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+    TURRETS: []
+};
 exports.shotgun_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Shotgun",
@@ -11427,6 +11978,106 @@ exports.slosher_dreaded = {
     ],
     TURRETS: []
 };
+exports.buckshot_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Buckshot",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.3
+    },
+    GUNS: [
+        {
+            POSITION: [4, 3, 1, 11, -3, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [4, 3, 1, 11, 3, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [4, 4, 1, 13, 0, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [1, 3, 1, 13, -1, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [1, 3, 1, 13, 1, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [1, 2, 1, 13, 2, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [21, 11.5, 1, 6, 0, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.fake, g.sniper]),
+                TYPE: "casing",
+            },
+        }, {
+            POSITION: [9.5, 11.5, -1.3, 4, 0, 0, 0,],
+        }
+    ],
+    TURRETS: []
+};
+exports.cluster_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Cluster",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.2
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [10, 9, 1, 9, 0, 0, 0],
+        },
+        {
+            POSITION: [17, 13, 1.4, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.arty, g.arty, g.cluster]),
+                TYPE: "bombmissile",
+                STAT_CALCULATOR: gunCalcNames.sustained,
+            },
+        },
+    ],
+    TURRETS: []
+};
+exports.swarmer_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Swarmer",
+    DANGER: 6,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            POSITION: [15, 14, -1.2, 5, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.destroy, g.hive]),
+                TYPE: "hive",
+            },
+        },
+        {
+            POSITION: [15, 13, 1, 5, 0, 0, 0],
+        },
+    ],
+    TURRETS: []
+};
 exports.mechagun_dreaded = {
     LABEL: "",
     BODY: {
@@ -11532,6 +12183,77 @@ exports.dual_dreaded = {
     ],
     TURRETS: []
 };
+exports.predator_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Predator",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.3
+    },
+    GUNS: [
+        {
+            POSITION: [24, 8, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.sniper,
+                    g.hunter,
+                    g.hunter2,
+                    g.hunter2,
+                    g.preda,
+                ]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [21, 12, 1, 0, 0, 0, 0.15],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.sniper,
+                    g.hunter,
+                    g.hunter2,
+                    g.preda,
+                ]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 16, 1, 0, 0, 0, 0.3],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+    TURRETS: []
+};
+exports.megaHunter_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Mega Hunter",
+    DANGER: 6,
+    BODY: {
+        FOV: base.FOV * 1.25
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [24, 10, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.pound]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [21, 13, 1, 0, 0, 0, 0.25],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.pound]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+    TURRETS: []
+};
 exports.enforcer_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Enforcer",
@@ -11605,6 +12327,49 @@ exports.overlord_dreaded = {
     ],
     TURRETS: []
 };
+exports.overdrive_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Overdrive",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [7, 11, 1.3, 7, 0, 90, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.bitmorepower, g.bitmorepower, g.over]),
+                TYPE: "turretedDrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 4,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5, 6.5, 1, 7, 0, 90, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [7, 11, 1.3, 7, 0, -90, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.bitmorepower, g.bitmorepower, g.over]),
+                TYPE: "turretedDrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 4,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5, 6.5, 1, 7, 0, -90, 0],
+        },
+    ],
+    TURRETS: []
+};
 exports.master_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Master",
@@ -11617,7 +12382,7 @@ exports.master_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -11629,7 +12394,7 @@ exports.master_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 90, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -11641,7 +12406,7 @@ exports.master_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 180, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -11653,7 +12418,7 @@ exports.master_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, -90, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -11693,6 +12458,50 @@ exports.factory_dreaded = {
     ],
     TURRETS: []
 };
+exports.productionist_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Productionist",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            /**** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [4.5, 10.5 * 0.6, 1, 10.5, 5.25, 0, 0]
+        },
+        {
+            POSITION: [1.2, 12.5 * 0.6, 1, 14.8, 5.25, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.productionist]),
+                TYPE: "tinyMinion",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true
+            }
+        },
+        {
+            POSITION: [11.5, 12.5 * 0.6, -1.1, 0, 5.25, 0, 0]
+        }, {
+            /**** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [4.5, 10.5 * 0.6, 1, 10.5, -5.25, 0, 0.5]
+        },
+        {
+            POSITION: [1.2, 12.5 * 0.6, 1, 14.8, -5.25, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.productionist]),
+                TYPE: "tinyMinion",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true
+            }
+        },
+        {
+            POSITION: [11.5, 12.5 * 0.6, -1.1, 0, -5.25, 0, 0.5]
+        },
+    ],
+    TURRETS: []
+};
 exports.betaSpawner_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Beta Spawner",
@@ -11721,6 +12530,49 @@ exports.betaSpawner_dreaded = {
         },
         {
             POSITION: [11.5, 14, -1.3, 0, 0, 0, 0],
+        },
+    ],
+    TURRETS: []
+};
+exports.betaseer_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Betaseer",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [9, 11, 1.3, 7, 0, 90, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 12.5, 1.3, 7, 0, 90, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.over, g.pound, { size: 1.5, reload: 0.4, maxSpeed: 1.35 }, g.over]),
+                TYPE: "betadrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 3,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [9, 11, 1.3, 7, 0, -90, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 12.5, 1.3, 7, 0, -90, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.over, g.pound, { size: 1.5, reload: 0.4, maxSpeed: 1.35 }, g.over]),
+                TYPE: "betadrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 4,
+            },
         },
     ],
     TURRETS: []
@@ -11824,7 +12676,7 @@ exports.frigate_dreaded = {
 exports.alpha_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Alpha",
-    DANGER: 6,
+    DANGER: 7,
     BODY: {},
     GUNS: [
         {
@@ -11839,6 +12691,41 @@ exports.alpha_dreaded = {
                 STAT_CALCULATOR: gunCalcNames.trap,
             },
         },
+    ],
+    TURRETS: []
+};
+exports.technician_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Technician",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.15
+    },
+    GUNS: [
+        {
+            POSITION: [5, 11, 1, 10.5, 0, 0, 0,],
+        }, {
+            POSITION: [5, 6, 1, 10.5, 0, 0, 0,],
+        }, {
+            POSITION: [3, 14, 1, 15.5, 0, 0, 0,],
+        }, {
+            POSITION: [3, 7, 1, 15.5, 0, 0, 0,],
+        }, 
+        {
+            POSITION: [2, 14, 1.3, 18, 0, 0, 0],
+            PROPERTIES: {
+                MAX_CHILDREN: 6,
+                SHOOT_SETTINGS: combineStats([g.trap, g.block]),
+                TYPE: "twinPillbox",
+                SYNCS_SKILLS: true,
+                DESTROY_OLDEST_CHILD: true,
+            },
+        },
+        {
+            POSITION: [4, 14, 1, 8, 0, 0, 0,]
+        }, {
+            POSITION: [4, 7, 1, 8, 0, 0, 0,],
+        }, 
     ],
     TURRETS: []
 };
@@ -11992,6 +12879,25 @@ exports.quadruplet_dreaded = {
         },
     ],
 };
+exports.battalion_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Battalion",
+    BODY: {
+        SPEED: 1.2,
+        DAMAGE: 2.2,
+        HEALTH: 0.85
+    },
+    TURRETS: [
+        {
+            POSITION: [25, 0, 0, 45, 0, 0],
+            TYPE: ["square", { COLOR: 9, MIRROR_MASTER_ANGLE: true }],
+        },
+        {
+            POSITION: [12.5, 0, 0, 180, 360, 1],
+            TYPE: "tripletTurret_dreaded",
+        },
+    ],
+};
 exports.ziggurat_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Ziggurat",
@@ -12132,6 +13038,51 @@ exports.mothership_dreaded = {
         {
             POSITION: [11, 0, 0, 180, 360, 1],
             TYPE: "mothershipTurret_dreaded",
+        },
+    ],
+};
+exports.baiterTurret_dreaded = {
+    PARENT: ["genericTank"],
+    BODY: {
+        FOV: 3,
+    },
+    HAS_NO_RECOIL: true,
+    //CONTROLLERS: [["spin", { independent: true, speed: 0.02 }]],
+    SHAPE: -3,
+    MIRROR_MASTER_ANGLE: true,
+    GUNS: [
+        {
+            POSITION: [1, 10, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.trap, g.twin, { recoil: 0.001, size: 2.4, damage: 0.75, speed: 0.5, range: 0.8 }]),
+                TYPE: "trap",
+            },
+        },
+    ],
+};
+exports.baiter_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Baiter",
+    TURRETS: [
+        {
+            POSITION: [5, 7, 0, 0, 0, 1],
+            TYPE: "baiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 7, 0, 72, 0, 1],
+            TYPE: "baiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 7, 0, 144, 0, 1],
+            TYPE: "baiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 7, 0, 216, 0, 1],
+            TYPE: "baiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 7, 0, 288, 0, 1],
+            TYPE: "baiterTurret_dreaded",
         },
     ],
 };
@@ -12479,6 +13430,36 @@ exports.M61_dreaded = { //12 barrels
         },
     ],
 };
+exports.deca_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Deca",
+    DANGER: 8,
+    BODY: {},
+    GUNS: [],
+    TURRETS: []
+};
+for (let i = 0; i < 5; i++) {
+    exports.deca_dreaded.GUNS.push(
+        {
+            POSITION: [18, 8, 1, 0, 0, 360 / 5 * (i + 0.5), 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+    )
+};
+for (let i = 0; i < 5; i++) {
+    exports.deca_dreaded.GUNS.push(
+        {
+            POSITION: [18, 8, 1, 0, 0, 360 / 5 * (i), 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam]),
+                TYPE: "bullet",
+            },
+        },
+    )
+};
 exports.assaultMechagun_dreaded = {
     LABEL: "",
     BODY: {
@@ -12685,6 +13666,52 @@ exports.vindicator_dreaded = {
     ],
     TURRETS: []
 };
+exports.carnivore_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Carnivore",
+    DANGER: 8,
+    BODY: {
+        FOV: base.FOV * 1.4
+    },
+    GUNS: [
+        {
+            POSITION: [27, 6, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.hunter2, g.preda, g.carnivore]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [24, 9, 1, 0, 0, 0, 0.09],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.hunter2, g.preda, g.carnivore]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [21, 12, 1, 0, 0, 0, 0.09 * 2],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.preda, g.carnivore]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 15, 1, 0, 0, 0, 0.09 * 3],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.preda, g.carnivore]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [15, 18, 1, 0, 0, 0, 0.09 * 4],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda, g.carnivore]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+    TURRETS: []
+};
 exports.concatinator_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Concatinator",
@@ -12696,37 +13723,37 @@ exports.concatinator_dreaded = {
         { /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [15 - 0.6, 5, 1, -1.5, -5, 0, 0.45,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.preda, g.arquebus, g.arty, g.twin]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.preda, g.arquebus, g.arty, g.twin, g.slow]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [13.5 - 0.6, 7.5, 1, -1.5, -5, 0, 0.6,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.preda, g.arquebus, g.arty, g.twin]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.preda, g.arquebus, g.arty, g.twin, g.slow]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [12 - 0.6, 10, 1, -1.5, -5, 0, 0.75,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda, g.arquebus, g.arty, g.twin]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda, g.arquebus, g.arty, g.twin, g.slow]),
                 TYPE: "bullet",
             },
         }, { /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [15 - 0.6, 5, 1, -1.5, 5, 0, 0.45,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.preda, g.arquebus, g.arty, g.twin]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.hunter2, g.preda, g.arquebus, g.arty, g.twin, g.slow]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [13.5 - 0.6, 7.5, 1, -1.5, 5, 0, 0.6,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.preda, g.arquebus, g.arty, g.twin]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.preda, g.arquebus, g.arty, g.twin, g.slow]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [12 - 0.6, 10, 1, -1.5, 5, 0, 0.75,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda, g.arquebus, g.arty, g.twin]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda, g.arquebus, g.arty, g.twin, g.slow]),
                 TYPE: "bullet",
             },
         }, { /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
@@ -12750,26 +13777,26 @@ exports.concatinator_dreaded = {
         }, {
             POSITION: [17 + 1.3 * 1, 8.5 - 1.5 * 1, 1, 0, 0, 0, 0.3,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.preda, g.arquebus, g.arty]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.preda, g.arquebus, g.arty, g.twin]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [17, 8.5, 1, 0, 0, 0, 0.4,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda, g.arquebus, g.arty]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.preda, g.arquebus, g.arty, g.twin]),
                 TYPE: "bullet",
             },
         }, {/*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [8, 3.4, 1.5, 8, 3.5, 0, 0,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.sniper, g.gunner, g.arty]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.sniper, g.gunner, g.arty, g.twin]),
                 TYPE: "bullet",
                 LABEL: 'Gatling Gun'
             },
         }, {
             POSITION: [8, 3.4, 1.5, 8, -3.5, 0, 0.5,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.sniper, g.gunner, g.arty]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.sniper, g.gunner, g.arty, g.twin]),
                 TYPE: "bullet",
                 LABEL: 'Gatling Gun'
             },
@@ -12777,7 +13804,152 @@ exports.concatinator_dreaded = {
     ],
     TURRETS: []
 };
+exports.ultraHunter_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Ultra Hunter",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.25
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [24, 12, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.hunter2, g.pound, g.destroy]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [21, 16, 1, 0, 0, 0, 0.25],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.sniper, g.hunter, g.pound, g.destroy]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+    TURRETS: []
+};
 exports.marksman_dreaded = makeHybrid(exports.enforcer_dreaded, "Marksman");
+exports.boomstick_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Boomstick",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            POSITION: [4, 3, 1, 11, -3, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [4, 5, 1, 11, 3, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [4, 4, 1, 13, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "casing",
+            },
+        },
+        {
+            POSITION: [4, 3, 1, 11, 3, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [4, 5, 1, 13, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "casing",
+            },
+        },
+        {
+            POSITION: [1, 4, 1, 12, -1, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "casing",
+            },
+        },
+        {
+            POSITION: [1, 4, 1, 11, 1, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "casing",
+            },
+        },
+        {
+            POSITION: [1, 3, 1, 13, -1, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [1, 3, 1, 13, 1, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [1, 3, 1, 13, 1, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [1, 3, 1, 13, 1, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [1, 2, 1, 13, 2, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "casing",
+            },
+        },
+        {
+            POSITION: [1, 2, 1, 13, 2, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "casing",
+            },
+        },
+        {
+            POSITION: [1, 2, 1, 13, -2, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.boomstick]),
+                TYPE: "casing",
+            },
+        },
+        {
+            POSITION: [15, 16.5, 1, 6, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.shotgun, g.fake, g.boomstick]),
+                TYPE: "casing",
+            },
+        },
+        {
+            POSITION: [12, 16.5, -1.2, 0, 0, 0, 0],
+        },
+    ],
+    TURRETS: []
+};
 exports.mayhem_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Mayhem",
@@ -12789,43 +13961,43 @@ exports.mayhem_dreaded = {
         {
             POSITION: [4, 3, 1, 11, -3, 0, 0,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, range: 0.5, spray: 0.6 }]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, damage: 1.4, range: 0.3, spray: 0.6 }]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [4, 3, 1, 11, 3, 0, 0,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, range: 0.5, spray: 0.6 }]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, damage: 1.4, range: 0.3, spray: 0.6 }]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [4, 4, 1, 13, 0, 0, 0,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, range: 0.5, spray: 0.6 }]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, damage: 1.4, range: 0.3, spray: 0.6 }]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [1, 3, 1, 13, -1, 0, 0,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, range: 0.5, spray: 0.6 }]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, damage: 1.4, range: 0.3, spray: 0.6 }]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [1, 3, 1, 13, 1, 0, 0,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, range: 0.5, spray: 0.6 }]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, damage: 1.4, range: 0.3, spray: 0.6 }]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [1, 2, 1, 13, 2, 0, 0,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, range: 0.5, spray: 0.6 }]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, damage: 1.4, range: 0.3, spray: 0.6 }]),
                 TYPE: "bullet",
             },
         }, {
             POSITION: [10.5, 10.5, 1.2, 11.5, 0, 0, 0,],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.fake, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, range: 0.5, spray: 0.6 }]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.fake, g.twin, g.mach, g.puregunner, g.fast, g.power, g.doublereload, g.mach2, { size: 0.5, damage: 1.4, range: 0.3, spray: 0.6 }]),
                 TYPE: "casing",
             },
         }, {
@@ -13017,6 +14189,193 @@ exports.explosher_dreaded = {
     ],
     TURRETS: []
 };
+exports.dragonbreath_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Dragonbreath",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.35
+    },
+    GUNS: [
+        //1st
+        {
+            POSITION: [4, 3, 1, 11, -3, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, g.hunter2]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [4, 3, 1, 11, 3, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, g.hunter2]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [4, 4, 1, 13, 0, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, g.hunter2]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [1, 3, 1, 13, -1, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, g.hunter2]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [1, 3, 1, 13, 1, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, g.hunter2]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [1, 2, 1, 13, 2, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, g.hunter2]),
+                TYPE: "bullet",
+            },
+        },
+        //2nd
+        {
+            POSITION: [4, 3, 1, 11, -3, 0, 0.25,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, { size: 1.3 }]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [4, 3, 1, 11, 3, 0, 0.25,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, { size: 1.3 }]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [4, 4, 1, 13, 0, 0, 0.25,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, { size: 1.3 }]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [1, 3, 1, 13, -1, 0, 0.25,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, { size: 1.3 }]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [1, 3, 1, 13, 1, 0, 0.25,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, { size: 1.3 }]),
+                TYPE: "bullet",
+            },
+        }, {
+            POSITION: [1, 2, 1, 13, 2, 0, 0.25,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.sniper, g.hunter, { size: 1.3 }]),
+                TYPE: "bullet",
+            },
+        },
+        //deco
+        {
+            POSITION: [21.5, 10, 1, 6, 0, 0, 0,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.fake, g.sniper, g.hunter, g.hunter2]),
+                TYPE: "casing",
+            },
+        }, {
+            POSITION: [19.5, 14, 1, 6, 0, 0, 0.25,],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.multi, g.shotgun, g.fake, g.sniper, g.hunter]),
+                TYPE: "casing",
+            },
+        }, {
+            POSITION: [9.5, 14, -1.2, 4, 0, 0, 0,],
+        }
+    ],
+    TURRETS: []
+};
+exports.recursor_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Recursor",
+    DANGER: 8,
+    BODY: {
+        FOV: base.FOV * 1.2
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [10, 9, 1, 9, 0, 0, 0],
+        },
+        {
+            POSITION: [17, 13, 1.4, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.arty, g.arty, g.cluster, g.recursor]),
+                TYPE: "bombmissile2",
+                STAT_CALCULATOR: gunCalcNames.sustained,
+            },
+        },
+        {
+            POSITION: [17, 13, 1.4, -4, 0, 0, 0],
+        },
+    ],
+    TURRETS: []
+};
+exports.ignite_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Ignite",
+    DANGER: 7,
+    BODY: {
+        FOV: base.FOV * 1.2
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6, 9, 1.5, 13, 0, 0, 0],
+        },
+        {
+            POSITION: [17, 11, 1.7, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.arty, g.arty, g.cluster, g.mach]),
+                TYPE: "bombmissile3",
+                STAT_CALCULATOR: gunCalcNames.sustained,
+            },
+        },
+    ],
+    TURRETS: []
+};
+exports.hypercluster_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Hypercluster",
+    DANGER: 8,
+    BODY: {
+        FOV: base.FOV * 1.2
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [10, 9, 1, 9, 0, 0, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [10, 5, 1, 9, 0, 0, 0],
+        },
+        {
+            POSITION: [17, 13, 1.4, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.arty, g.arty, g.cluster]),
+                TYPE: "hyperBombmissile",
+                STAT_CALCULATOR: gunCalcNames.sustained,
+            },
+        },
+        {
+            POSITION: [17, 7, 1.4, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.arty, g.arty, g.cluster, g.fake]),
+                TYPE: "casing",
+                STAT_CALCULATOR: gunCalcNames.sustained,
+            },
+        },
+    ],
+    TURRETS: []
+};
 exports.overczar_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Overczar",
@@ -13076,6 +14435,65 @@ exports.overczar_dreaded = {
     ],
     TURRETS: []
 };
+exports.tyrant_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Tyrant",
+    DANGER: 8,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [7, 11, 1.3, 7, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.bitmorepower, g.bitmorepower, g.over]),
+                TYPE: "turretedDrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 4,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5, 6.5, 1, 7, 0, 0, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [7, 11, 1.3, 7, 0, 120, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.bitmorepower, g.bitmorepower, g.over]),
+                TYPE: "turretedDrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 4,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5, 6.5, 1, 7, 0, 120, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [7, 11, 1.3, 7, 0, -120, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.bitmorepower, g.bitmorepower, g.over]),
+                TYPE: "turretedDrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 4,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5, 6.5, 1, 7, 0, -120, 0],
+        },
+    ],
+    TURRETS: []
+};
 exports.emperor_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Emperor",
@@ -13088,7 +14506,7 @@ exports.emperor_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 300, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -13100,7 +14518,7 @@ exports.emperor_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 60, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -13112,7 +14530,7 @@ exports.emperor_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 180, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -13124,7 +14542,7 @@ exports.emperor_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -13136,7 +14554,7 @@ exports.emperor_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, 120, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -13148,7 +14566,7 @@ exports.emperor_dreaded = {
             /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
             POSITION: [6, 9.5, 1.3, 7, 0, -120, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.drone, g.over]),
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.bitlesspower]),
                 TYPE: "drone",
                 AUTOFIRE: true,
                 SYNCS_SKILLS: true,
@@ -13182,6 +14600,228 @@ exports.industry_dreaded = {
         }, {
             POSITION: [6.75, 16, 1, 6, 0, 0, 0,],
         }
+    ],
+    TURRETS: []
+};
+exports.manufacture_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Manufacture",
+    DANGER: 8,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            /**** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5.5, 12 * 0.6, 1, 10.5, 5, 0, 0]
+        },
+        {
+            POSITION: [1.6, 14 * 0.6, 1, 15.8, 5, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.productionist, g.morereload, bitlessspeed, bitlessspeed]),
+                TYPE: "tinyMinion",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true
+            }
+        },
+        {
+            POSITION: [12.5, 14 * 0.6, -1.1, 0, 5, 0, 0]
+        }, {
+            /**** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5.5, 12 * 0.6, 1, 10.5, -5, 0, 0.5]
+        },
+        {
+            POSITION: [1.6, 14 * 0.6, 1, 15.8, -5, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.productionist, g.morereload, bitlessspeed, bitlessspeed]),
+                TYPE: "tinyMinion",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true
+            }
+        },
+        {
+            POSITION: [12.5, 14 * 0.6, -1.1, 0, -5, 0, 0.5]
+        },
+    ],
+    TURRETS: []
+};
+exports.betalord_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Betalord",
+    DANGER: 8,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [9, 11, 1.3, 7, 0, 0, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 12.5, 1.3, 7, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.over, g.pound, { size: 1.5, reload: 0.4, maxSpeed: 1.35 }, g.over]),
+                TYPE: "betadrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 3,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [9, 11, 1.3, 7, 0, 120, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 12.5, 1.3, 7, 0, 120, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.over, g.pound, { size: 1.5, reload: 0.4, maxSpeed: 1.35 }, g.over]),
+                TYPE: "betadrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 3,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [9, 11, 1.3, 7, 0, 240, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 12.5, 1.3, 7, 0, 240, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.over, g.pound, { size: 1.5, reload: 0.4, maxSpeed: 1.35 }, g.over]),
+                TYPE: "betadrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 4,
+            },
+        },
+    ],
+    TURRETS: []
+};
+exports.alphaseer_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Alphaseer",
+    DANGER: 8,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [11, 12, 1.2, 7, 0, 90, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [9, 14.5, 1.3, 7, 0, 90, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 16, 1.3, 7, 0, 90, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.over, g.pound, g.destroy, g.morespeed, { size: 2, reload: 0.4, maxSpeed: 1.25 }, g.over]),
+                TYPE: "alphadrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 2,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [11, 12, 1.2, 7, 0, -90, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [9, 14.5, 1.3, 7, 0, -90, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 16, 1.3, 7, 0, -90, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.over, g.over, g.pound, g.destroy, g.morespeed, { size: 2, reload: 0.4, maxSpeed: 1.25 }, g.over]),
+                TYPE: "alphadrone",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 1,
+            },
+        },
+    ],
+    TURRETS: []
+};
+exports.nestseer_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Nestseer",
+    DANGER: 8,
+    BODY: {
+        FOV: base.FOV * 1.1
+    },
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 12.5, 1.3, 7, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, g.over, { size: 1.33 }]),
+                TYPE: "eliteSpawner_sentryT",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 2,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5, 6.5, 1, 7, 0, 0, 0],
+            PROPERTIES: {
+                COLOR: 5
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 12.5, 1.3, 7, 0, 120, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, g.over, { size: 1.33 }]),
+                TYPE: "eliteSpawner_sentryG",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 2,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5, 6.5, 1, 7, 0, 120, 0],
+            PROPERTIES: {
+                COLOR: 5
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6.7, 12.5, 1.3, 7, 0, 240, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.drone, g.pound, g.pound, g.over, { size: 1.33 }]),
+                TYPE: "eliteSpawner_sentryS",
+                AUTOFIRE: true,
+                SYNCS_SKILLS: true,
+                STAT_CALCULATOR: gunCalcNames.drone,
+                MAX_CHILDREN: 2,
+            },
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [5, 6.5, 1, 7, 0, 240, 0],
+            PROPERTIES: {
+                COLOR: 5
+            },
+        },
     ],
     TURRETS: []
 };
@@ -13335,6 +14975,31 @@ exports.yamato_dreaded = {
     ],
     TURRETS: []
 };
+exports.omega_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Omega",
+    DANGER: 8,
+    BODY: {},
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [6, 25, -0.7, -3, 0, 0, 0],
+        },
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [15, 25, 1.2, 3, 0, 0, 0],
+        },
+        {
+            POSITION: [6.5, 25 * 1.2, 1.4, 18, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.trap, g.pound, g.destroy, g.megatrap, g.gigatrap, g.alpha, g.omega]),
+                TYPE: "trap",
+                STAT_CALCULATOR: gunCalcNames.trap,
+            },
+        },
+    ],
+    TURRETS: []
+};
 exports.labyrinth_dreaded = {
     PARENT: ["genericMultiTree_dreaded"],
     LABEL: "Labyrinth",
@@ -13430,6 +15095,51 @@ exports.quintuplet_dreaded = {
         {
             POSITION: [14, 0, 0, 180, 360, 1],
             TYPE: "quintupletTurret_dreaded",
+        },
+    ],
+};
+exports.union_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Union",
+    BODY: {
+        SPEED: 1.225,
+        DAMAGE: 3,
+        HEALTH: 0.8
+    },
+    TURRETS: [
+        {
+            POSITION: [27, 0, 0, 0, 0, 0],
+            TYPE: ["pentagon", { COLOR: 9, MIRROR_MASTER_ANGLE: true }],
+        },
+        {
+            POSITION: [14, 0, 0, 180, 360, 1],
+            TYPE: "quadrupletTurret_dreaded",
+        },
+    ],
+};
+exports.rampart_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Rampart",
+    BODY: {
+        SPEED: 0.775,
+        HEALTH: 5
+    },
+    TURRETS: [
+        {
+            POSITION: [17.5, 0, 0, 0, 360, 1],
+            TYPE: ["hexagon", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+        },
+        {
+            POSITION: [17.5 * 0.8, 0, 0, 30, 360, 1],
+            TYPE: ["hexagon", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+        },
+        {
+            POSITION: [17.5 * 0.8 * 0.8, 0, 0, 0, 360, 1],
+            TYPE: ["hexagon", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
+        },
+        {
+            POSITION: [17.5 * 0.8 * 0.8 * 0.8, 0, 0, 30, 360, 1],
+            TYPE: ["hexagon", { COLOR: -1, MIRROR_MASTER_ANGLE: true }],
         },
     ],
 };
@@ -13582,6 +15292,63 @@ exports.flagship_dreaded = {
         },
     ],
 };
+exports.masterBaiterTurret_dreaded = {
+    PARENT: ["genericTank"],
+    BODY: {
+        FOV: 3,
+    },
+    HAS_NO_RECOIL: true,
+    //CONTROLLERS: [["spin", { independent: true, speed: 0.02 }]],
+    SHAPE: -3,
+    MIRROR_MASTER_ANGLE: true,
+    GUNS: [
+        {
+            POSITION: [1, 10, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.trap, g.twin, { recoil: 0.001, size: 2.4, damage: 0.7, speed: 0.5, range: 0.7 }]),
+                TYPE: "trap",
+            },
+        },
+    ],
+};
+exports.masterBaiter_dreaded = {
+    PARENT: ["genericMultiTree_dreaded"],
+    LABEL: "Master Baiter",
+    TURRETS: [
+        {
+            POSITION: [5, 10, 0, 45, 0, 1],
+            TYPE: "masterBaiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 10, 0, 135, 0, 1],
+            TYPE: "masterBaiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 10, 0, 225, 0, 1],
+            TYPE: "masterBaiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 10, 0, 315, 0, 1],
+            TYPE: "masterBaiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 7, 0, 0, 0, 1],
+            TYPE: "masterBaiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 7, 0, 90, 0, 1],
+            TYPE: "masterBaiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 7, 0, 180, 0, 1],
+            TYPE: "masterBaiterTurret_dreaded",
+        },
+        {
+            POSITION: [5, 7, 0, 270, 0, 1],
+            TYPE: "masterBaiterTurret_dreaded",
+        },
+    ],
+};
 exports.omniciderTurret_dreaded = {
     PARENT: ["genericTank"],
     BODY: {
@@ -13714,7 +15481,7 @@ exports.chainsaw_dreaded = {
 exports.multiTreeWeapon.UPGRADES_TIER_1 = ["node_dreaded"];
 
 exports.node_dreaded.UPGRADES_TIER_1 = ["mono_dreaded", "watcher_dreaded", "trapper_dreaded"];
-    exports.mono_dreaded.UPGRADES_TIER_2 = ["machine_dreaded", "duo_dreaded", "guard_dreaded", "sniper_dreaded", "pounder_dreaded"];
+    exports.mono_dreaded.UPGRADES_TIER_2 = ["machine_dreaded", "duo_dreaded", "flank_dreaded", "guard_dreaded", "sniper_dreaded", "pounder_dreaded"];
         exports.machine_dreaded.UPGRADES_TIER_3 = ["sprayer_dreaded", "blaster_dreaded", "minigun_dreaded", "multishot_dreaded", "gunner_dreaded", "submachine_dreaded"];
             exports.blaster_dreaded.UPGRADES_TIER_4 = ["overpowerer_dreaded"];
             exports.minigun_dreaded.UPGRADES_TIER_4 = ["nailgun_dreaded"];
@@ -13726,29 +15493,42 @@ exports.node_dreaded.UPGRADES_TIER_1 = ["mono_dreaded", "watcher_dreaded", "trap
         exports.duo_dreaded.UPGRADES_TIER_3 = ["trio_dreaded", "gunner_dreaded", "bulwark_dreaded"];
             exports.trio_dreaded.UPGRADES_TIER_4 = ["quadro_dreaded"];
                 exports.quadro_dreaded.UPGRADES_TIER_5 = ["quinto_dreaded"];
+        exports.flank_dreaded.UPGRADES_TIER_3 = ["hexa_dreaded", "triAngle_dreaded"];
+            exports.hexa_dreaded.UPGRADES_TIER_4 = ["octo_dreaded"];
+                exports.octo_dreaded.UPGRADES_TIER_5 = ["deca_dreaded"];
         exports.sniper_dreaded.UPGRADES_TIER_3 = ["assassin_dreaded", "minigun_dreaded", "hunter_dreaded", "rifle_dreaded"];
             exports.assassin_dreaded.UPGRADES_TIER_4 = ["ranger_dreaded", "enforcer_dreaded"];
                 exports.ranger_dreaded.UPGRADES_TIER_5 = ["vindicator_dreaded"];
-            exports.hunter_dreaded.UPGRADES_TIER_4 = ["dual_dreaded"];
+            exports.hunter_dreaded.UPGRADES_TIER_4 = ["predator_dreaded", "dual_dreaded", "megaHunter_dreaded"];
+                exports.predator_dreaded.UPGRADES_TIER_5 = ["carnivore_dreaded"];
                 exports.dual_dreaded.UPGRADES_TIER_5 = ["concatinator_dreaded"];
+                exports.megaHunter_dreaded.UPGRADES_TIER_5 = ["ultraHunter_dreaded", "dragonbreath_dreaded"];
             exports.rifle_dreaded.UPGRADES_TIER_4 = ["enforcer_dreaded"];
                 exports.enforcer_dreaded.UPGRADES_TIER_5 = ["marksman_dreaded"];
-        exports.pounder_dreaded.UPGRADES_TIER_3 = ["destroyer_dreaded", "multishot_dreaded"];
+        exports.pounder_dreaded.UPGRADES_TIER_3 = ["destroyer_dreaded", "multishot_dreaded", "launcher_dreaded"];
             exports.destroyer_dreaded.UPGRADES_TIER_4 = ["annihilator_dreaded", "shotgun_dreaded"];
                 exports.annihilator_dreaded.UPGRADES_TIER_5 = ["devastator_dreaded"];
-            exports.multishot_dreaded.UPGRADES_TIER_4 = ["shotgun_dreaded", "overpowerer_dreaded", "slosher_dreaded"];
+            exports.multishot_dreaded.UPGRADES_TIER_4 = ["shotgun_dreaded", "overpowerer_dreaded", "slosher_dreaded", "buckshot_dreaded"];
+                exports.shotgun_dreaded.UPGRADES_TIER_5 = ["boomstick_dreaded"];
                 exports.overpowerer_dreaded.UPGRADES_TIER_5 = ["assaultMecha_dreaded", "mayhem_dreaded"];
-                    exports.slosher_dreaded.UPGRADES_TIER_5 = ["triSlosher_dreaded", "explosher_dreaded"];
+                exports.slosher_dreaded.UPGRADES_TIER_5 = ["triSlosher_dreaded", "explosher_dreaded"];
+                exports.buckshot_dreaded.UPGRADES_TIER_5 = ["dragonbreath_dreaded"];
+            exports.launcher_dreaded.UPGRADES_TIER_4 = ["cluster_dreaded", "swarmer_dreaded"];
+                exports.cluster_dreaded.UPGRADES_TIER_5 = ["recursor_dreaded", "ignite_dreaded", "hypercluster_dreaded"];
     exports.watcher_dreaded.UPGRADES_TIER_2 = ["director_dreaded", "protector_dreaded", "cruiser_dreaded"];
-        exports.director_dreaded.UPGRADES_TIER_3 = ["overseer_dreaded", "spawner_dreaded", "betaDirector_dreaded"];
-            exports.spawner_dreaded.UPGRADES_TIER_4 = ["factory_dreaded", "betaSpawner_dreaded"];
-                exports.factory_dreaded.UPGRADES_TIER_5 = ["industry_dreaded"];
-            exports.betaDirector_dreaded.UPGRADES_TIER_4 = ["alphaDirector_dreaded", "betaSpawner_dreaded"];
-                exports.alphaDirector_dreaded.UPGRADES_TIER_5 = ["omegaDirector_dreaded", "alphaSpawner_dreaded"];
+        exports.director_dreaded.UPGRADES_TIER_3 = ["overseer_dreaded", "spawner_dreaded", "betaDirector_dreaded", "directordrive_dreaded"];
+            exports.spawner_dreaded.UPGRADES_TIER_4 = ["factory_dreaded", "betaSpawner_dreaded", "productionist_dreaded"];
+                exports.factory_dreaded.UPGRADES_TIER_5 = ["industry_dreaded", "manufacture_dreaded", "nestseer_dreaded"];
+                exports.productionist_dreaded.UPGRADES_TIER_5 = ["manufacture_dreaded"];
+            exports.betaDirector_dreaded.UPGRADES_TIER_4 = ["alphaDirector_dreaded", "betaseer_dreaded", "betaSpawner_dreaded"];
+                exports.alphaDirector_dreaded.UPGRADES_TIER_5 = ["omegaDirector_dreaded", "alphaseer_dreaded", "alphaSpawner_dreaded"];
+                exports.betaseer_dreaded.UPGRADES_TIER_5 = ["betalord_dreaded", "alphaseer_dreaded", "nestseer_dreaded"];
                 exports.betaSpawner_dreaded.UPGRADES_TIER_5 = ["alphaSpawner_dreaded"];
+            exports.directordrive_dreaded.UPGRADES_TIER_4 = ["overdrive_dreaded"];
+                exports.overdrive_dreaded.UPGRADES_TIER_5 = ["tyrant_dreaded", "nestseer_dreaded"];
         exports.protector_dreaded.UPGRADES_TIER_3 = ["commander_dreaded", "overseer_dreaded"];
-            exports.overseer_dreaded.UPGRADES_TIER_4 = ["overlord_dreaded"];
-                exports.overlord_dreaded.UPGRADES_TIER_5 = ["overczar_dreaded"];
+            exports.overseer_dreaded.UPGRADES_TIER_4 = ["overlord_dreaded", "betaseer_dreaded", "overdrive_dreaded"];
+                exports.overlord_dreaded.UPGRADES_TIER_5 = ["overczar_dreaded", "betalord_dreaded"];
             exports.commander_dreaded.UPGRADES_TIER_4 = ["master_dreaded", "overlord_dreaded"];
                 exports.master_dreaded.UPGRADES_TIER_5 = ["emperor_dreaded", "overczar_dreaded"];
         exports.cruiser_dreaded.UPGRADES_TIER_3 = ["carrier_dreaded", "battleboat_dreaded"];
@@ -13757,24 +15537,29 @@ exports.node_dreaded.UPGRADES_TIER_1 = ["mono_dreaded", "watcher_dreaded", "trap
     exports.trapper_dreaded.UPGRADES_TIER_2 = ["gamma_dreaded", "guard_dreaded", "mech_dreaded", "stockade_dreaded", "builder_dreaded"];
         exports.gamma_dreaded.UPGRADES_TIER_3 = ["beta_dreaded"];
             exports.beta_dreaded.UPGRADES_TIER_4 = ["alpha_dreaded"];
+                exports.alpha_dreaded.UPGRADES_TIER_5 = ["omega_dreaded"];
         exports.guard_dreaded.UPGRADES_TIER_3 = ["bulwark_dreaded"];
         exports.mech_dreaded.UPGRADES_TIER_3 = ["engineer_dreaded"];
         exports.stockade_dreaded.UPGRADES_TIER_3 = ["caltrop_dreaded"];
             exports.caltrop_dreaded.UPGRADES_TIER_4 = ["trapfield_dreaded"];
                 exports.trapfield_dreaded.UPGRADES_TIER_5 = ["labyrinth_dreaded"];
         exports.builder_dreaded.UPGRADES_TIER_3 = ["engineer_dreaded"];
+            exports.engineer_dreaded.UPGRADES_TIER_4 = ["technician_dreaded"];
 // Bodies tree
 exports.multiTreeBody.UPGRADES_TIER_1 = ["base_dreaded"];
 
 exports.base_dreaded.UPGRADES_TIER_1 = ["turret_dreaded", "wall_dreaded", "smasher_dreaded", "hangar_dreaded", "layer_dreaded"];
     exports.turret_dreaded.UPGRADES_TIER_2 = ["twin_dreaded", "armory_dreaded"];
         exports.twin_dreaded.UPGRADES_TIER_3 = ["triplet_dreaded", "brigade_dreaded"];
-            exports.triplet_dreaded.UPGRADES_TIER_4 = ["quadruplet_dreaded"];
-                exports.quadruplet_dreaded.UPGRADES_TIER_5 = ["quintuplet_dreaded"];
+            exports.triplet_dreaded.UPGRADES_TIER_4 = ["quadruplet_dreaded", "battalion_dreaded"];
+                exports.quadruplet_dreaded.UPGRADES_TIER_5 = ["quintuplet_dreaded", "union_dreaded"];
         exports.armory_dreaded.UPGRADES_TIER_3 = ["brigade_dreaded"];
+            exports.brigade_dreaded.UPGRADES_TIER_4 = ["battalion_dreaded"];
+                exports.battalion_dreaded.UPGRADES_TIER_5 = ["union_dreaded"];
     exports.wall_dreaded.UPGRADES_TIER_2 = ["rock_dreaded", "stomper_dreaded"];
         exports.rock_dreaded.UPGRADES_TIER_3 = ["palace_dreaded"];
             exports.palace_dreaded.UPGRADES_TIER_4 = ["ziggurat_dreaded"];
+                exports.ziggurat_dreaded.UPGRADES_TIER_5 = ["rampart_dreaded"];
         exports.stomper_dreaded.UPGRADES_TIER_3 = ["giant_dreaded"];
             exports.giant_dreaded.UPGRADES_TIER_4 = ["slammer_dreaded"];
                 exports.slammer_dreaded.UPGRADES_TIER_5 = ["earthquake_dreaded"];
@@ -13791,6 +15576,8 @@ exports.base_dreaded.UPGRADES_TIER_1 = ["turret_dreaded", "wall_dreaded", "smash
                 exports.mothership_dreaded.UPGRADES_TIER_5 = ["flagship_dreaded"];
     exports.layer_dreaded.UPGRADES_TIER_2 = ["dropper_dreaded", "shocker_dreaded"];
         exports.dropper_dreaded.UPGRADES_TIER_3 = ["trailer_dreaded"];
+            exports.trailer_dreaded.UPGRADES_TIER_4 = ["baiter_dreaded"];
+                exports.baiter_dreaded.UPGRADES_TIER_5 = ["masterBaiter_dreaded"];
         exports.shocker_dreaded.UPGRADES_TIER_3 = ["panic_dreaded", "blower_dreaded"];
             exports.panic_dreaded.UPGRADES_TIER_4 = ["disaster_dreaded"];
                 exports.disaster_dreaded.UPGRADES_TIER_5 = ["overflow_dreaded"];

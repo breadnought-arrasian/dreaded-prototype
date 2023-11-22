@@ -459,7 +459,7 @@ exports.trapTurret = {
 let makeshottrapTurretProps = () => ({
     SHOOT_SETTINGS: combineStats([g.trap, g.weak, g.lowpower, g.shotgun, g.acc, g.mach]),
     AUTOFIRE: true,
-    TYPE: "trap"
+    TYPE: "unsetTrap"
 });
 exports.shottrapTurret = {
     PARENT: ["genericTank"],
