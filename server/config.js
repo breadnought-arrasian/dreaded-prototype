@@ -3,7 +3,7 @@ module.exports = {
 
     // Game server domain.
     // If 'localhost:NUMBER', the port must equal the port setting.
-    host: "dreaded-bread.onrender.com",
+    host: "localhost:3000",
 
     // Which port to run the web server on.
     port: 3000,
